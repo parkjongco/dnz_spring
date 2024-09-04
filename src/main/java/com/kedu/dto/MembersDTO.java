@@ -9,7 +9,11 @@ public class MembersDTO {
 	    private String userName;
 	    private String userPhoneNumber;
 	    private String userEmail;
-	    private Timestamp writeDate;
+	    private String user_birth_date;
+	    
+
+
+		private Timestamp writeDate;
 	    private int enabled;
 	    
 	    
@@ -17,7 +21,7 @@ public class MembersDTO {
 
 
 		public MembersDTO(int userSeq, String userId, String userPw, String userName, String userPhoneNumber,
-				String userEmail, Timestamp writeDate, int enabled) {
+				String userEmail, String user_birth_date, Timestamp writeDate, int enabled) {
 			super();
 			this.userSeq = userSeq;
 			this.userId = userId;
@@ -25,6 +29,7 @@ public class MembersDTO {
 			this.userName = userName;
 			this.userPhoneNumber = userPhoneNumber;
 			this.userEmail = userEmail;
+			this.user_birth_date = user_birth_date;
 			this.writeDate = writeDate;
 			this.enabled = enabled;
 		}
@@ -88,6 +93,17 @@ public class MembersDTO {
 		public void setUserEmail(String userEmail) {
 			this.userEmail = userEmail;
 		}
+		
+	    
+	    public String getUser_birth_date() {
+			return user_birth_date;
+		}
+
+
+		public void setUser_birth_date(String user_birth_date) {
+			this.user_birth_date = user_birth_date;
+		}
+
 
 
 		public Timestamp getWriteDate() {
