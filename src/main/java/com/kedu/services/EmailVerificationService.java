@@ -71,4 +71,10 @@ public class EmailVerificationService {
         }
         return false;
     }
+
+    public boolean isEmailVerified(String userEmail) {
+        EmailVerificationsDTO dto = emailVerificationDAO.findByUserEmail(userEmail);
+        return dto != null && dto.getIsVerified() == 'Y';
+    }
+
 }

@@ -29,11 +29,9 @@ public class EmailVerificationDAO {
         hashMap.put("userEmail", userEmail);
         return mybatis.selectOne("email.findByVerificationCode", hashMap);
     }
-//
-//    public EmailVerificationsDTO findByUserEmail(String userEmail) {
-//
-//        EmailVerificationsDTO dto =  mybatis.selectOne("email.findByUserEmail", userEmail);
-//        System.out.println(dto.getUserEmail());
-//        return dto;
-//    }
+
+    public EmailVerificationsDTO findByUserEmail(String userEmail) {
+        return mybatis.selectOne("email.findByUserEmail", userEmail);
+    }
+
 }
