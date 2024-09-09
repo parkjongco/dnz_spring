@@ -78,6 +78,12 @@ public class AuthController {
         @PostMapping("/registerUser")
         public ResponseEntity<String> registerUser(@RequestBody MembersDTO dto) {
             try {
+
+                // 이메일 인증 확인
+                boolean isEmailVerified = emailVerificationService.isEmailVerified(dto.getUserEmail());
+                if (!isEmailVerified) {
+                    return ResponseEntity.badRequest().body("이메일 인증이 완료되지 않았습니다.");
+                }
                 // 회원 정보 저장 (미완료 상태)
                 membersService.registerUser(dto);
 
