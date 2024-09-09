@@ -9,26 +9,33 @@ public class StoreDTO {
 	private String category;
 	private String name;
 	private String description;
-	private int maxWaitingCount;
+	private int seat_status;
 	private Timestamp createdAt;
 	private Timestamp modifiedAt;
+	private String address;
+	private int seatCapacity;
 
 
-	public StoreDTO() {}
+	
+	
 
-
-	public StoreDTO(int storeSeq, int memberId, String category, String name, String description, int maxWaitingCount,
-			Timestamp createdAt, Timestamp modifiedAt) {
+	public StoreDTO(int storeSeq, int memberId, String category, String name, String description, int seat_status,
+			Timestamp createdAt, Timestamp modifiedAt, String address, int seatCapacity) {
 		super();
 		this.storeSeq = storeSeq;
 		this.memberId = memberId;
 		this.category = category;
 		this.name = name;
 		this.description = description;
-		this.maxWaitingCount = maxWaitingCount;
+		this.seat_status = seat_status;
 		this.createdAt = createdAt;
 		this.modifiedAt = modifiedAt;
+		this.address = address;
+		this.seatCapacity = seatCapacity;
 	}
+
+
+
 
 
 	public int getStoreSeq() {
@@ -36,9 +43,15 @@ public class StoreDTO {
 	}
 
 
+
+
+
 	public void setStoreSeq(int storeSeq) {
 		this.storeSeq = storeSeq;
 	}
+
+
+
 
 
 	public int getMemberId() {
@@ -46,9 +59,15 @@ public class StoreDTO {
 	}
 
 
+
+
+
 	public void setMemberId(int memberId) {
 		this.memberId = memberId;
 	}
+
+
+
 
 
 	public String getCategory() {
@@ -56,9 +75,15 @@ public class StoreDTO {
 	}
 
 
+
+
+
 	public void setCategory(String category) {
 		this.category = category;
 	}
+
+
+
 
 
 	public String getName() {
@@ -66,9 +91,15 @@ public class StoreDTO {
 	}
 
 
+
+
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
+
 
 
 	public String getDescription() {
@@ -76,19 +107,31 @@ public class StoreDTO {
 	}
 
 
+
+
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
 
-	public int getMaxWaitingCount() {
-		return maxWaitingCount;
+
+
+
+	public int getSeat_status() {
+		return seat_status;
 	}
 
 
-	public void setMaxWaitingCount(int maxWaitingCount) {
-		this.maxWaitingCount = maxWaitingCount;
+
+
+
+	public void setSeat_status(int seat_status) {
+		this.seat_status = seat_status;
 	}
+
+
+
 
 
 	public Timestamp getCreatedAt() {
@@ -96,9 +139,15 @@ public class StoreDTO {
 	}
 
 
+
+
+
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
+
+
+
 
 
 	public Timestamp getModifiedAt() {
@@ -106,9 +155,52 @@ public class StoreDTO {
 	}
 
 
+
+
+
 	public void setModifiedAt(Timestamp modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 
+
+
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+
+
+
+	public int getSeatCapacity() {
+		return seatCapacity;
+	}
+
+
+
+
+
+	public void setSeatCapacity(int seatCapacity) {
+		this.seatCapacity = seatCapacity;
+	}
+
+
+
+
+
+	public StoreDTO() {}
+
+
+	
 
 }

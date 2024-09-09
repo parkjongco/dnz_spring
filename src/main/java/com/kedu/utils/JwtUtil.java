@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private long expiration = 10;
+    private long expiration = 86400;
 
     private Algorithm algo;
     private JWTVerifier verifier;

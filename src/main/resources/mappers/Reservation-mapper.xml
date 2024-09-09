@@ -6,9 +6,12 @@
 
 
 	<select id="findByStatusAndUser" parameterType="map" resultType="com.kedu.dto.ReservationDTO">
-		SELECT * FROM reservation
-	    WHERE status = #{status}
-	    AND user_id = (SELECT user_seq FROM members WHERE user_id = #{userId})
+	    SELECT * 
+	    FROM reservation r
+	    JOIN members m ON r.user_id = m.user_seq
+	    WHERE r.status = #{status}
+	    AND m.user_id = #{userId}
 	</select>
+
 
 </mapper>
