@@ -5,7 +5,8 @@ import java.sql.Timestamp;
 public class ReservationDTO {
 	private int reservationId;
     private int userId;
-    private int restaurantId;
+    private int storeSeq;
+    private Timestamp reservationDate;
     private Timestamp reservationTime;
     private int numGuests;
     private String status;
@@ -14,20 +15,6 @@ public class ReservationDTO {
     
     
 	public ReservationDTO() {}
-
-
-	public ReservationDTO(int reservationId, int userId, int restaurantId, Timestamp reservationTime, int numGuests,
-			String status, Timestamp createdAt, Timestamp updatedAt) {
-		super();
-		this.reservationId = reservationId;
-		this.userId = userId;
-		this.restaurantId = restaurantId;
-		this.reservationTime = reservationTime;
-		this.numGuests = numGuests;
-		this.status = status;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-	}
 
 
 	public int getReservationId() {
@@ -50,13 +37,23 @@ public class ReservationDTO {
 	}
 
 
-	public int getRestaurantId() {
-		return restaurantId;
+	public int getStoreSeq() {
+		return storeSeq;
 	}
 
 
-	public void setRestaurantId(int restaurantId) {
-		this.restaurantId = restaurantId;
+	public void setStoreSeq(int storeSeq) {
+		this.storeSeq = storeSeq;
+	}
+
+
+	public Timestamp getReservationDate() {
+		return reservationDate;
+	}
+
+
+	public void setReservationDate(Timestamp reservationDate) {
+		this.reservationDate = reservationDate;
 	}
 
 
@@ -108,6 +105,22 @@ public class ReservationDTO {
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+
+	public ReservationDTO(int reservationId, int userId, int storeSeq, Timestamp reservationDate,
+			Timestamp reservationTime, int numGuests, String status, Timestamp createdAt, Timestamp updatedAt) {
+		super();
+		this.reservationId = reservationId;
+		this.userId = userId;
+		this.storeSeq = storeSeq;
+		this.reservationDate = reservationDate;
+		this.reservationTime = reservationTime;
+		this.numGuests = numGuests;
+		this.status = status;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+
+
 	
-    
 }
