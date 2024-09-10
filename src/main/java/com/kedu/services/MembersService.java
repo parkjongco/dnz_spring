@@ -55,6 +55,12 @@ public class MembersService implements UserDetailsService {
         String[] tempRoles = {"ROLE_ADMIN"};
         return new User(dto.getUserId(), dto.getUserPw(), AuthorityUtils.createAuthorityList(tempRoles));
     }
+    
+    // jik
+    // selectById 메서드 추가
+    public MembersDTO selectById(String userId) {
+        return membersDAO.selectById(userId);
+    }
 
 
 }
