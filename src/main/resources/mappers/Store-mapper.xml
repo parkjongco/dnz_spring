@@ -6,7 +6,12 @@
 
 	<insert id="insertStore" parameterType="com.kedu.dto.StoreDTO">
         INSERT INTO store
-        VALUES (store_seq.nextval, 3, #{category}, #{name}, #{description}, #{seat_status}, CURRENT_TIMESTAMP, NULL, #{address},  #{seatCapacity})
+        VALUES (store_seq.nextval, #{memberId}, #{category}, #{name}, #{description}, #{seatStatus}, CURRENT_TIMESTAMP, NULL, #{address1}, #{address2}, #{postcode}, #{seatCapacity})
     </insert>
+    
+    <!-- 특정 사용자의 가게 수 확인 쿼리 -->
+    <select id="countStoresByUserId" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM store WHERE member_id = #{userId}
+    </select>
     
 </mapper>
