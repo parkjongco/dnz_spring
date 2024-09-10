@@ -4,111 +4,101 @@ import java.sql.Timestamp;
 
 public class StoreDTO {
 
-	private int storeSeq;
-	private int memberId;
-	private String category;
-	private String name;
-	private String description;
-	private int maxWaitingCount;
-	private Timestamp createdAt;
-	private Timestamp modifiedAt;
+    private int storeSeq;
+    private int memberId;
+    private String category;
+    private String name;
+    private String description;
+    private int maxWaitingCount;
+    private Timestamp createdAt;
+    private Timestamp modifiedAt;
+    private String address; // 추가된 address 필드
 
+    public StoreDTO() {}
 
-	public StoreDTO() {}
+    public StoreDTO(int storeSeq, int memberId, String category, String name, String description, int maxWaitingCount,
+                    Timestamp createdAt, Timestamp modifiedAt, String address) {
+        super();
+        this.storeSeq = storeSeq;
+        this.memberId = memberId;
+        this.category = category;
+        this.name = name;
+        this.description = description;
+        this.maxWaitingCount = maxWaitingCount;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+        this.address = address; // 추가된 address 필드
+    }
 
+    public int getStoreSeq() {
+        return storeSeq;
+    }
 
-	public StoreDTO(int storeSeq, int memberId, String category, String name, String description, int maxWaitingCount,
-			Timestamp createdAt, Timestamp modifiedAt) {
-		super();
-		this.storeSeq = storeSeq;
-		this.memberId = memberId;
-		this.category = category;
-		this.name = name;
-		this.description = description;
-		this.maxWaitingCount = maxWaitingCount;
-		this.createdAt = createdAt;
-		this.modifiedAt = modifiedAt;
-	}
+    public void setStoreSeq(int storeSeq) {
+        this.storeSeq = storeSeq;
+    }
 
+    public int getMemberId() {
+        return memberId;
+    }
 
-	public int getStoreSeq() {
-		return storeSeq;
-	}
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
+    }
 
+    public String getCategory() {
+        return category;
+    }
 
-	public void setStoreSeq(int storeSeq) {
-		this.storeSeq = storeSeq;
-	}
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
+    public String getName() {
+        return name;
+    }
 
-	public int getMemberId() {
-		return memberId;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public String getDescription() {
+        return description;
+    }
 
-	public void setMemberId(int memberId) {
-		this.memberId = memberId;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
+    public int getMaxWaitingCount() {
+        return maxWaitingCount;
+    }
 
-	public String getCategory() {
-		return category;
-	}
+    public void setMaxWaitingCount(int maxWaitingCount) {
+        this.maxWaitingCount = maxWaitingCount;
+    }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
 
+    public Timestamp getModifiedAt() {
+        return modifiedAt;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setModifiedAt(Timestamp modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
 
+    public String getAddress() {
+        return address; // 추가된 address 필드
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-	public String getDescription() {
-		return description;
-	}
-
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
-	public int getMaxWaitingCount() {
-		return maxWaitingCount;
-	}
-
-
-	public void setMaxWaitingCount(int maxWaitingCount) {
-		this.maxWaitingCount = maxWaitingCount;
-	}
-
-
-	public Timestamp getCreatedAt() {
-		return createdAt;
-	}
-
-
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
-	}
-
-
-	public Timestamp getModifiedAt() {
-		return modifiedAt;
-	}
-
-
-	public void setModifiedAt(Timestamp modifiedAt) {
-		this.modifiedAt = modifiedAt;
-	}
-
-
+    public void setAddress(String address) {
+        this.address = address; // 추가된 address 필드
+    }
 }
