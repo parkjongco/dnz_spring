@@ -21,5 +21,10 @@ public class StoreDAO {
     public int countStoresByUserId(String userId) {
         return mybatis.selectOne("Store.countStoresByUserId", userId);
     }
+    
+ // 가게 ID로 가게 정보를 조회하는 메소드
+    public StoreDTO getStoreById(int storeId) {
+        return mybatis.selectOne("Store.getStoreById", storeId);
+    }
 	
 }

@@ -20,4 +20,10 @@ public class StoreService {
         // 가게가 있는지 확인하는 DAO 메소드 호출
         return storeDAO.countStoresByUserId(userId) > 0;
     }
+    
+ // 가게 상세 정보 조회
+    public StoreDTO getStoreDetails(int storeId) {
+        return storeDAO.getStoreById(storeId);
+    }
+    
 }
