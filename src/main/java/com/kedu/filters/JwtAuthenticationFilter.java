@@ -27,27 +27,53 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwt;
 
+ // Authorization 헤더에서 JWT 토큰 추출
     private String extractToken(HttpServletRequest request) {
-        String auth = request.getHeader("Authorization");
-
-        if(auth != null && auth.startsWith("Bearer ")) {
-            return auth.substring(7);
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            System.out.println("Authorization 헤더: " + authHeader);
+            return authHeader.substring(7);  // "Bearer " 이후의 토큰 부분만 반환
+        } else {         
+            // 쿼리 파라미터에서 토큰을 추출
+            String token = request.getParameter("token");
+            if (token != null) {
+                System.out.println("쿼리 파라미터에서 추출된 토큰: " + token);
+                return token;
+            }
         }
         return null;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = extractToken(request);
-        System.out.println("Extracted Token: " + token);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
-        if (token != null && jwt.isVerfied(token)) {
-            System.out.println("Verified Token: " + token);
-            String id = jwt.getSUbject(token); // getSubject로 수정
-            UserDetails user = membersService.loadUserByUsername(id);
-            Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(auth);
+        // JWT 토큰 추출
+        String token = extractToken(request);
+
+        if (token != null) {
+            System.out.println("JWT 필터에서 추출된 토큰: " + token);
+
+            // 토큰이 유효한지 검증
+            if (jwt.isVerfied(token)) {
+                String userId = jwt.getSUbject(token);  // 토큰에서 사용자 ID 추출
+                UserDetails userDetails = membersService.loadUserByUsername(userId);
+
+                // 유효한 사용자라면 SecurityContext에 설정
+                if (userDetails != null) {
+                    Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
+            } else {
+                System.out.println("토큰이 유효하지 않음.");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+        } else {
+            System.out.println("JWT 필터에서 추출된 토큰: null");
         }
+
+        // 필터 체인 계속 실행
         filterChain.doFilter(request, response);
     }
 
