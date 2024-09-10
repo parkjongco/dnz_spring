@@ -21,6 +21,10 @@
         WHERE verification_code = #{verificationCode} and user_email = #{userEmail}
     </select>
 
+    <select id="findByUserEmail" parameterType="string" resultType="com.kedu.dto.EmailVerificationsDTO">
+        SELECT * FROM email_verifications
+        WHERE user_email = #{userEmail}
+    </select>
 
 
 </mapper>
