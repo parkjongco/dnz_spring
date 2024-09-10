@@ -1,13 +1,17 @@
 package com.kedu.services;
 
 import com.kedu.dao.EmailVerificationDAO;
+import com.kedu.dao.MembersDAO;
 import com.kedu.dto.EmailVerificationsDTO;
+import com.kedu.dto.MembersDTO;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -19,6 +23,12 @@ public class EmailVerificationService {
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    private MembersDAO membersDAO;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // 이메일 인증 정보 저장
     public void saveVerification(EmailVerificationsDTO emailVerificationsDTO) {
@@ -72,9 +82,92 @@ public class EmailVerificationService {
         return false;
     }
 
+    //회원가입 인증
     public boolean isEmailVerified(String userEmail) {
         EmailVerificationsDTO dto = emailVerificationDAO.findByUserEmail(userEmail);
         return dto != null && dto.getIsVerified() == 'Y';
+    }
+
+
+    public boolean resetPassword(String userId,String userEmail) {
+        // 1. 사용자 정보를 가져옵니다.
+        MembersDTO membersDTO = membersDAO.selectByUserIdAndEmail( userEmail,userId);
+
+        // 2. membersDTO가 null인지 확인
+        if (membersDTO == null) {
+            System.out.println("사용자 정보가 없습니다. userEmail: " + userEmail + ", userId: " + userId);
+            return false;
+        } else {
+            System.out.println("사용자 정보: " + membersDTO.toString());
+        }
+
+        // 3. 임시 비밀번호 생성
+        String tempPassword = generateTempPassword();
+        System.out.println("임시 비밀번호: " + tempPassword);
+
+        // 4. 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(tempPassword);
+        System.out.println("암호화된 비밀번호: " + encodedPassword);
+
+        // 5. 사용자 정보 업데이트
+        membersDTO.setUserPw(encodedPassword);
+        try {
+            membersDAO.updateUserPassword(membersDTO);
+            System.out.println("비밀번호 업데이트 성공");
+        } catch (Exception e) {
+            System.out.println("비밀번호 업데이트 중 오류 발생: " + e.getMessage());
+            return false;
+        }
+
+        // 6. 이메일 전송
+        try {
+            sendResetPasswordEmail(userEmail, tempPassword);
+            System.out.println("비밀번호 재설정 이메일 전송 성공");
+        } catch (Exception e) {
+            System.out.println("이메일 전송 중 오류 발생: " + e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+
+
+    private String generateTempPassword() {
+        // 임시 비밀번호 생성 로직 (8자리, 숫자 및 영문 포함)
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder();
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (int i = 0; i < 8; i++) {
+            int index = random.nextInt(chars.length());
+            sb.append(chars.charAt(index));
+        }
+        return sb.toString();
+    }
+
+    private void sendResetPasswordEmail(String toEmail, String tempPassword) {
+        try {
+            String subject = "임시 비밀번호";
+            String body = String.format(
+                    "<p>안녕하세요!</p>" +
+                            "<p>아래의 임시 비밀번호를 사용하여 로그인해 주세요:</p>" +
+                            "<p><b>%s</b></p>" +
+                            "<p>로그인 후, 비밀번호를 변경해 주세요.</p>" +
+                            "<p>감사합니다.</p>",
+                    tempPassword);
+
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("ehdus232323@naver.com"); // 실제 이메일 주소로 변경
+            helper.setTo(toEmail);
+            helper.setSubject(subject);
+            helper.setText(body, true); // HTML 형식으로 전송
+
+            mailSender.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to send reset password email", e);
+        }
     }
 
 }
