@@ -23,8 +23,4 @@ public class StoreDAO {
         return mybatis.selectList("store.findByCategory", category);
     }
 
-    // 새로운 가게 데이터를 추가하는 메서드
-    public void insertStore(StoreDTO store) {
-        mybatis.insert("store.insertStore", store);
-    }
 }

@@ -24,7 +24,7 @@ public class JwtUtil {
     public String createToken(String id, int userSeq) {
         return JWT.create()  // JWT 생성
                 .withSubject(id)  // 주제(Subject) 설정
-                .withClaim("userSeq", userSeq) 
+                .withClaim("userSeq", userSeq)
                 .withIssuedAt(new Date())  // 발행 시간 설정
                 .withExpiresAt(new Date(System.currentTimeMillis() + (expiration * 1000)))  // 만료 시간 설정
                 .sign(this.algo);  // 알고리즘을 사용하여 서명 및 토큰 생성

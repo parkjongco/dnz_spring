@@ -29,12 +29,6 @@ public class StoreController {
         return ResponseEntity.ok(stores);
     }
 
-    // 새로운 가게 데이터를 추가하는 API
-    @PostMapping("/add")
-    public ResponseEntity<String> addStore(@RequestBody StoreDTO store) {
-        storeService.addStore(store);
-        return ResponseEntity.ok("Store added successfully!");
-    }
 }
 
 

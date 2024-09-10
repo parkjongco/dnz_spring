@@ -19,10 +19,6 @@
         WHERE category = #{category}
     </select>
 
-    <!-- 새로운 가게 데이터 삽입 -->
-    <insert id="insertStore" parameterType="com.kedu.dto.StoreDTO">
-        INSERT INTO store (member_id, category, name, description, created_at, modified_at, address)
-        VALUES (#{memberId}, #{category}, #{name}, #{description}, #{createdAt}, #{modifiedAt}, #{address})
-    </insert>
+
 
 </mapper>
