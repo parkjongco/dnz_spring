@@ -12,7 +12,6 @@ public class ReservationDTO {
     private String status;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-    
 	public int getReservationId() {
 		return reservationId;
 	}
@@ -67,9 +66,6 @@ public class ReservationDTO {
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
-	public ReservationDTO() {}
-	
 	public ReservationDTO(int reservationId, int userId, int storeSeq, Timestamp reservationDate,
 			Timestamp reservationTime, int numGuests, String status, Timestamp createdAt, Timestamp updatedAt) {
 		super();
@@ -83,5 +79,9 @@ public class ReservationDTO {
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
-	    
+    
+	public ReservationDTO() {
+		// TODO Auto-generated constructor stub
+	}
+    
 }
