@@ -52,5 +52,10 @@
         WHERE user_id = #{userId}
     </update>
 
+	<!-- Jik -->
+	<select id="selectByUserSeq" parameterType="int" resultType="com.kedu.dto.MembersDTO">
+	    SELECT * FROM members WHERE user_seq = #{userSeq}
+	</select>
+	
 
 </mapper>
