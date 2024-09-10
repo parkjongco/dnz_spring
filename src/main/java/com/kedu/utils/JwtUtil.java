@@ -11,14 +11,14 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private long expiration = 10;
+    private long expiration = 86400; // 토큰 만료 시간 24시간
 
     private Algorithm algo;
     private JWTVerifier verifier;
 
     public JwtUtil(@Value("${jwt.secret}") String secret) {
-        this.algo = Algorithm.HMAC256(secret);
-        this.verifier = JWT.require(algo).build();
+        this.algo = Algorithm.HMAC256(secret); // JWT 비밀키 설정
+        this.verifier = JWT.require(algo).build(); // 검증기 생성
     }
 
     public String createToken(String id, int userSeq) {
@@ -31,29 +31,27 @@ public class JwtUtil {
     }
 
     public DecodedJWT verifyToken(String token) {
-        return verifier.verify(token);
+        return verifier.verify(token); // 토큰 검증
     }
 
     public String getSUbject(String token) {
-        DecodedJWT decodedJWT = this.verifier.verify(token);
+        DecodedJWT decodedJWT = this.verifier.verify(token); // 토큰에서 subject 추출
         return decodedJWT.getSubject();
     }
 
     public boolean isVerfied(String token) {
         try {
-            this.verifier.verify(token);
+            this.verifier.verify(token); // 토큰 검증
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-    
-    // JWT에서 userSeq를 클레임에서 추출 jik
+
+    // JWT에서 userSeq를 클레임에서 추출
     public int getUserSeq(String token) {
         DecodedJWT decodedJWT = this.verifier.verify(token);
         return decodedJWT.getClaim("userSeq").asInt();  // userSeq를 정수로 반환
     }
 }
-
-

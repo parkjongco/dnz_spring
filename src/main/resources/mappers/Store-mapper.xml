@@ -6,14 +6,14 @@
 
     <!-- 모든 가게 데이터 조회 -->
     <select id="findAllStores" resultType="com.kedu.dto.StoreDTO">
-        SELECT store_seq AS storeSeq, member_id AS memberId, category, name, description, max_waiting_count AS maxWaitingCount,
+        SELECT store_seq AS storeSeq, member_id AS memberId, category, name, description,
                created_at AS createdAt, modified_at AS modifiedAt, address
         FROM store
     </select>
 
     <!-- 카테고리로 가게 조회 -->
     <select id="findByCategory" parameterType="String" resultType="com.kedu.dto.StoreDTO">
-        SELECT store_seq AS storeSeq, member_id AS memberId, category, name, description, max_waiting_count AS maxWaitingCount,
+        SELECT store_seq AS storeSeq, member_id AS memberId, category, name, description,
                created_at AS createdAt, modified_at AS modifiedAt, address
         FROM store
         WHERE category = #{category}
@@ -21,8 +21,8 @@
 
     <!-- 새로운 가게 데이터 삽입 -->
     <insert id="insertStore" parameterType="com.kedu.dto.StoreDTO">
-        INSERT INTO store (member_id, category, name, description, max_waiting_count, created_at, modified_at, address)
-        VALUES (#{memberId}, #{category}, #{name}, #{description}, #{maxWaitingCount}, #{createdAt}, #{modifiedAt}, #{address})
+        INSERT INTO store (member_id, category, name, description, created_at, modified_at, address)
+        VALUES (#{memberId}, #{category}, #{name}, #{description}, #{createdAt}, #{modifiedAt}, #{address})
     </insert>
 
 </mapper>

@@ -36,3 +36,5 @@ public class StoreController {
         return ResponseEntity.ok("Store added successfully!");
     }
 }
+
+

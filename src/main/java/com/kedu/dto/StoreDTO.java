@@ -9,14 +9,13 @@ public class StoreDTO {
     private String category;
     private String name;
     private String description;
-    private int maxWaitingCount;
     private Timestamp createdAt;
     private Timestamp modifiedAt;
     private String address; // 추가된 address 필드
 
     public StoreDTO() {}
 
-    public StoreDTO(int storeSeq, int memberId, String category, String name, String description, int maxWaitingCount,
+    public StoreDTO(int storeSeq, int memberId, String category, String name, String description,
                     Timestamp createdAt, Timestamp modifiedAt, String address) {
         super();
         this.storeSeq = storeSeq;
@@ -24,10 +23,9 @@ public class StoreDTO {
         this.category = category;
         this.name = name;
         this.description = description;
-        this.maxWaitingCount = maxWaitingCount;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
-        this.address = address; // 추가된 address 필드
+        this.address = address;
     }
 
     public int getStoreSeq() {
@@ -68,14 +66,6 @@ public class StoreDTO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getMaxWaitingCount() {
-        return maxWaitingCount;
-    }
-
-    public void setMaxWaitingCount(int maxWaitingCount) {
-        this.maxWaitingCount = maxWaitingCount;
     }
 
     public Timestamp getCreatedAt() {
