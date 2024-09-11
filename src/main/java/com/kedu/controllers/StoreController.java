@@ -68,4 +68,20 @@ public class StoreController {
             return ResponseEntity.status(500).body(null);
         }
     }
+    
+    // 가게 ID로 음식점 이름 조회 API
+    @GetMapping("/{storeSeq}/name")
+    public ResponseEntity<String> getStoreNameBySeq(@PathVariable int storeSeq) {
+        try {
+            String storeName = storeService.getStoreNameBySeq(storeSeq);
+            if (storeName != null) {
+                return ResponseEntity.ok(storeName);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error retrieving store name");
+        }
+    }
 }

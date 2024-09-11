@@ -36,4 +36,9 @@ public class StoreService {
     public StoreDTO getStoreDetails(int storeId) {
         return storeDAO.getStoreById(storeId);
     }
+    
+ // storeSeq로 음식점 이름 조회
+    public String getStoreNameBySeq(int storeSeq) {
+        return storeDAO.getStoreNameBySeq(storeSeq);
+    }
 }

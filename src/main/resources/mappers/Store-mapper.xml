@@ -37,4 +37,9 @@
         WHERE store_seq = #{storeId}
     </select>
     
+    <!-- storeSeq로 음식점 이름 조회 -->
+    <select id="getStoreNameBySeq" parameterType="int" resultType="String">
+        SELECT name FROM store WHERE store_seq = #{storeSeq}
+    </select>
+    
 </mapper>
