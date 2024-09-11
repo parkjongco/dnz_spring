@@ -48,6 +48,8 @@ public class SecurityConfig {
                         // "/photos/**" 경로는 인증 없이 접근 가능
                         .requestMatchers(HttpMethod.GET, "/photos/**").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/storeadd").permitAll()
+
                         // 나머지 모든 요청은 인증 필요
                         .anyRequest().authenticated())
                 // JWT 인증 필터를 UsernamePasswordAuthenticationFilter 앞에 추가
