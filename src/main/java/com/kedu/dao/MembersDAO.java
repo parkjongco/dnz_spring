@@ -54,5 +54,12 @@ public class MembersDAO {
     }
 
 
+    public String findUserId(String userEmail, String userPhoneNumber) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userEmail", userEmail);
+        map.put("userPhoneNumber", userPhoneNumber);
+        return mybatis.selectOne("members.findUserId", map);
+    }
+
 }
 

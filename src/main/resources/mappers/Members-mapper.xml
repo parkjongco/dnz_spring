@@ -58,6 +58,14 @@
 	<select id="selectByUserSeq" parameterType="int" resultType="com.kedu.dto.MembersDTO">
 	    SELECT * FROM members WHERE user_seq = #{userSeq}
 	</select>
-	
+
+    <select id="findUserId" parameterType="map" resultType="string">
+        SELECT user_id
+        FROM members
+        WHERE user_email = #{userEmail} AND user_phone_number = #{userPhoneNumber}
+    </select>
+
+
+
 
 </mapper>
