@@ -31,11 +31,12 @@ public class ReservationController {
 	// 음식점 예약 등록
 	@PostMapping
 	public ResponseEntity<Void> post (@RequestBody ReservationDTO dto) {
+		System.out.println("예약 등록 접근");
 		reservationService.post(dto);
 		return ResponseEntity.ok().build();
 	}
 		
-	// 음식점 예약 삭제
+//	 음식점 예약 삭제
 //	@DeleteMapping	
 //	public ResponseEntity<Void> reserveDelete(@PathVariable int id, @AuthenticationPrincipal UserDetails user){
 //		String userId = user.getUsername();
