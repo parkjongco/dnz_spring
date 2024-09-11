@@ -151,6 +151,7 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("token", token, "userId", mdto.getUserId(), "notificationCount", notificationCount));
     }
 
+//    비밀번호 재설정
     @PostMapping("/findPassword")
     public ResponseEntity<String> resetPassword(@RequestBody MembersDTO dto) {
         try {

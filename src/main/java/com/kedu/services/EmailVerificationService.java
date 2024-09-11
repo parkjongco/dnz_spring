@@ -168,6 +168,8 @@ public class EmailVerificationService {
         }
     }
 
+
+
     public String findAndSendUserId(String userEmail, String userPhoneNumber) {
         String userId = membersDAO.findUserId(userEmail, userPhoneNumber);
 
