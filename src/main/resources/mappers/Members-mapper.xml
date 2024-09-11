@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="members">
 
     <!-- 사용자 ID로 사용자 조회 -->
@@ -36,6 +38,26 @@
     </insert>
 
 
+    <!-- 사용자 ID와 이메일로 사용자 조회 -->
+    <select id="selectByUserIdAndEmail" parameterType="map" resultType="com.kedu.dto.MembersDTO">
+        SELECT *
+        FROM members
+        WHERE user_id = #{userId}
+          AND user_email = #{userEmail}
+    </select>
 
+
+    <!-- 사용자 비밀번호 업데이트 -->
+    <update id="updateUserPassword" >
+        UPDATE members
+        SET user_pw = #{userPw}
+        WHERE user_id = #{userId}
+    </update>
+
+	<!-- Jik -->
+	<select id="selectByUserSeq" parameterType="int" resultType="com.kedu.dto.MembersDTO">
+	    SELECT * FROM members WHERE user_seq = #{userSeq}
+	</select>
+	
 
 </mapper>
