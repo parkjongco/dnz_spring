@@ -11,6 +11,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
+
     private long expiration = 86400; // 토큰 만료 시간 24시간
 
     private Algorithm algo;

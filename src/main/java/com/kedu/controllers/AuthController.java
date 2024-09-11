@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.UUID;
-//현재시간 3:38
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

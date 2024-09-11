@@ -1,14 +1,18 @@
 package com.kedu.dao;
 
+
 import com.kedu.dto.StoreDTO;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 
 import java.util.List;
 
 @Repository
 public class StoreDAO {
+
 
     @Autowired
     private SqlSession mybatis;
@@ -23,4 +27,19 @@ public class StoreDAO {
         return mybatis.selectList("store.findByCategory", category);
     }
 
+	
+	public void insertStore(StoreDTO store) {
+		
+		mybatis.insert("Store.insertStore", store);
+	}
+	
+	// 특정 사용자가 등록한 가게 수를 확인하는 메소드
+    public int countStoresByUserId(String userId) {
+        return mybatis.selectOne("Store.countStoresByUserId", userId);
+    }
+    
+ // 가게 ID로 가게 정보를 조회하는 메소드
+    public StoreDTO getStoreById(int storeId) {
+        return mybatis.selectOne("Store.getStoreById", storeId);
+    }
 }
