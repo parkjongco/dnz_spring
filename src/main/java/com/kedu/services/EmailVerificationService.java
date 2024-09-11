@@ -88,7 +88,7 @@ public class EmailVerificationService {
         return dto != null && dto.getIsVerified() == 'Y';
     }
 
-
+//비밀번호 찾기
     public boolean resetPassword(String userId,String userEmail) {
         // 1. 사용자 정보를 가져옵니다.
         MembersDTO membersDTO = membersDAO.selectByUserIdAndEmail( userEmail,userId);
@@ -131,8 +131,6 @@ public class EmailVerificationService {
         return true;
     }
 
-
-
     private String generateTempPassword() {
         // 임시 비밀번호 생성 로직 (8자리, 숫자 및 영문 포함)
         SecureRandom random = new SecureRandom();
@@ -169,5 +167,43 @@ public class EmailVerificationService {
             throw new RuntimeException("Failed to send reset password email", e);
         }
     }
+
+    public String findAndSendUserId(String userEmail, String userPhoneNumber) {
+        String userId = membersDAO.findUserId(userEmail, userPhoneNumber);
+
+        if (userId != null) {
+            sendUserIdEmail(userEmail, userId); // 사용자 ID 전송
+            return userId;
+        } else {
+            return null;
+        }
+    }
+
+
+    // 이메일로 사용자 ID를 보내는 메소드
+    private void sendUserIdEmail(String toEmail, String userId) {
+        try {
+            String subject = "귀하의 사용자 ID";
+            String body = String.format(
+                    "<p>안녕하세요!</p>" +
+                            "<p>귀하의 사용자 ID는 다음과 같습니다:</p>" +
+                            "<p><b>%s</b></p>" +
+                            "<p>감사합니다.</p>",
+                    userId);
+
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("ehdus232323@naver.com"); // 실제 이메일 주소로 변경
+            helper.setTo(toEmail);
+            helper.setSubject(subject);
+            helper.setText(body, true); // HTML 형식으로 전송
+
+            mailSender.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to send user ID email", e);
+        }
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.kedu.dao;
 
 import com.kedu.dto.MembersDTO;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -52,6 +53,13 @@ public class MembersDAO {
         mybatis.update("members.updateUserPassword", dto);
     }
 
+
+    public String findUserId(String userEmail, String userPhoneNumber) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userEmail", userEmail);
+        map.put("userPhoneNumber", userPhoneNumber);
+        return mybatis.selectOne("members.findUserId", map);
+    }
 
 }
 
