@@ -19,7 +19,7 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
+//10:01 push
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
