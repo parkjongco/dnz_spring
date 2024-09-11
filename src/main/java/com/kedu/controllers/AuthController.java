@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.UUID;
-//현재시간 3:38
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -175,7 +175,23 @@ public class AuthController {
         }
     }
 
+//    아이디찾기
+    @PostMapping("/findId")
+    public ResponseEntity<String> findId(@RequestBody MembersDTO dto) {
+        System.out.println(dto.getUserEmail() + ":" + dto.getUserPhoneNumber());
 
+        // 이메일과 전화번호가 제공되었는지 확인
+        if (dto.getUserEmail() == null || dto.getUserPhoneNumber() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이메일과 전화번호는 필수입니다.");
+        }
 
+        // 사용자 ID를 찾고 이메일로 전송
+        String userId = emailVerificationService.findAndSendUserId(dto.getUserEmail(), dto.getUserPhoneNumber());
 
+        if (userId != null) {
+            return ResponseEntity.ok("사용자 ID가 이메일로 전송되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 정보를 가진 사용자를 찾을 수 없습니다.");
+        }
+    }
 }

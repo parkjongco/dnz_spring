@@ -2,26 +2,40 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Store">
+<mapper namespace="store">
 
-	<insert id="insertStore" parameterType="com.kedu.dto.StoreDTO">
-        INSERT INTO store
-        VALUES (store_seq.nextval, #{memberId}, #{category}, #{name}, #{description}, #{seatStatus}, CURRENT_TIMESTAMP, NULL, #{address1}, #{address2}, #{postcode}, #{seatCapacity})
-    </insert>
-    
-    <!-- 특정 사용자의 가게 수 확인 쿼리 -->
+    <!-- 모든 가게 데이터 조회 -->
+    <select id="findAllStores" resultType="com.kedu.dto.StoreDTO">
+        SELECT store_seq AS storeSeq, member_id AS memberId, category, name, description,
+               created_at AS createdAt,
+               modified_at AS modifiedAt,
+               address1 AS address1, address2 AS address2, postcode, seat_status AS seatStatus, seat_capacity AS seatCapacity
+        FROM store
+    </select>
+
+    <!-- 카테고리로 가게 조회 -->
+    <select id="findByCategory" parameterType="String" resultType="com.kedu.dto.StoreDTO">
+        SELECT store_seq AS storeSeq, member_id AS memberId, category, name, description,
+               created_at AS createdAt,
+               modified_at AS modifiedAt,
+               address1 AS address1, address2 AS address2, postcode, seat_status AS seatStatus, seat_capacity AS seatCapacity
+        FROM store
+        WHERE category = #{category}
+    </select>
+
+    <!-- 특정 사용자의 가게 수 확인 -->
     <select id="countStoresByUserId" parameterType="String" resultType="int">
         SELECT COUNT(*) FROM store WHERE member_id = #{userId}
     </select>
     
-    <!-- 가게 ID로 가게 정보 조회 쿼리 -->
+    <!-- 가게 ID로 가게 정보 조회 -->
     <select id="getStoreById" parameterType="int" resultType="com.kedu.dto.StoreDTO">
-        SELECT store_seq, member_id, category, name, description, seat_status,
-         TO_CHAR(created_at, 'YYYY-MM-DD HH24:MI:SS') AS created_at,
-         TO_CHAR(modified_at, 'YYYY-MM-DD HH24:MI:SS') AS modified_at,
-         address1, address2, postcode, seat_capacity
+        SELECT store_seq, member_id, category, name, description, seat_status AS seatStatus,
+               created_at AS createdAt,
+               modified_at AS modifiedAt,
+               address1, address2, postcode, seat_capacity AS seatCapacity
         FROM store
         WHERE store_seq = #{storeSeq}
     </select>
-    
+
 </mapper>
