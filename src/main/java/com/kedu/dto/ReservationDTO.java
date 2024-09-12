@@ -4,10 +4,10 @@ import java.sql.Timestamp;
 
 public class ReservationDTO {
 	private int reservationId;
-    private int userId;
+    private String userId;
     private int storeSeq;
     private Timestamp reservationDate;
-    private Timestamp reservationTime;
+    private String reservationTime;
     private int numGuests;
     private String status;
     private Timestamp createdAt;
@@ -18,10 +18,10 @@ public class ReservationDTO {
 	public void setReservationId(int reservationId) {
 		this.reservationId = reservationId;
 	}
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public int getStoreSeq() {
@@ -36,10 +36,10 @@ public class ReservationDTO {
 	public void setReservationDate(Timestamp reservationDate) {
 		this.reservationDate = reservationDate;
 	}
-	public Timestamp getReservationTime() {
+	public String getReservationTime() {
 		return reservationTime;
 	}
-	public void setReservationTime(Timestamp reservationTime) {
+	public void setReservationTime(String reservationTime) {
 		this.reservationTime = reservationTime;
 	}
 	public int getNumGuests() {
@@ -66,8 +66,8 @@ public class ReservationDTO {
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	public ReservationDTO(int reservationId, int userId, int storeSeq, Timestamp reservationDate,
-			Timestamp reservationTime, int numGuests, String status, Timestamp createdAt, Timestamp updatedAt) {
+	public ReservationDTO(int reservationId, String userId, int storeSeq, Timestamp reservationDate,
+			String reservationTime, int numGuests, String status, Timestamp createdAt, Timestamp updatedAt) {
 		super();
 		this.reservationId = reservationId;
 		this.userId = userId;

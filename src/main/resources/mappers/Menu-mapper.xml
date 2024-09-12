@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="menu">
+
+    <!-- 메뉴 추가 -->
+    <insert id="insertMenu" parameterType="com.kedu.dto.MenuDTO">
+        INSERT INTO menu (menu_seq, name, description, price, store_id, created_at, modified_at)
+        VALUES (#{menuSeq}, #{name}, #{description}, #{price}, #{storeId}, #{createdAt}, #{modifiedAt})
+    </insert>
+
+    <!-- 가게 ID로 메뉴 조회 -->
+    <select id="findByStoreId" parameterType="int" resultType="com.kedu.dto.MenuDTO">
+        SELECT menu_seq AS menuSeq, name, description, price, store_id AS storeId, created_at AS createdAt, modified_at AS modifiedAt
+        FROM menu
+        WHERE store_id = #{storeId}
+    </select>
+
+    <!-- 메뉴 ID로 메뉴 조회 -->
+    <select id="findById" parameterType="int" resultType="com.kedu.dto.MenuDTO">
+        SELECT menu_seq AS menuSeq, name, description, price, store_id AS storeId, created_at AS createdAt, modified_at AS modifiedAt
+        FROM menu
+        WHERE menu_seq = #{menuSeq}
+    </select>
+
+    <!-- 메뉴 업데이트 -->
+    <update id="updateMenu" parameterType="com.kedu.dto.MenuDTO">
+        UPDATE menu
+        SET name = #{name},
+            description = #{description},
+            price = #{price},
+            modified_at = #{modifiedAt}
+        WHERE menu_seq = #{menuSeq}
+    </update>
+
+    <!-- 메뉴 삭제 -->
+    <delete id="deleteMenu" parameterType="int">
+        DELETE FROM menu WHERE menu_seq = #{menuSeq}
+    </delete>
+</mapper>

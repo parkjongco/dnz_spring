@@ -19,7 +19,7 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-//10:01 push
+
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -39,15 +39,21 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        // "/auth/**"는 인증 없이 접근 가능
-                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                	    // "/auth/**"는 인증 없이 접근 가능
+                	    .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
 
-                        // "/store/category/**"는 인증 없이 접근 가능
-                        .requestMatchers(HttpMethod.GET, "/store/category/**").permitAll()
+                	    // "/store/category/**"는 인증 없이 접근 가능
+                	    .requestMatchers(HttpMethod.GET, "/store/category/**").permitAll()
 
-                        // "/photos/**" 경로는 인증 없이 접근 가능
-                        .requestMatchers(HttpMethod.GET, "/photos/**").permitAll()
+                	    // "/photos/**" 경로는 인증 없이 접근 가능
+                	    .requestMatchers(HttpMethod.GET, "/photos/**").permitAll()
 
+                	    // "/photos/store/**" 경로는 인증 없이 접근 가능
+                	    .requestMatchers(HttpMethod.GET, "/photos/store/**").permitAll()
+
+
+                        
+                                                                   
                         // 나머지 모든 요청은 인증 필요
                         .anyRequest().authenticated())
                 // JWT 인증 필터를 UsernamePasswordAuthenticationFilter 앞에 추가
