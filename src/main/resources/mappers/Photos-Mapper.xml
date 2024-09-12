@@ -3,11 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="photos">
-
-    <!-- storeSeq로 사진 조회 -->
+  
+    <!-- storeSeq로 사진 데이터를 가져오는 쿼리 -->
     <select id="findPhotosByStoreSeq" parameterType="int" resultType="com.kedu.dto.PhotosDTO">
-        SELECT photo_id AS photoId, store_seq AS storeSeq, image_url AS imageUrl
-        FROM photos
+        SELECT photo_id, image_url
+        FROM Photos
         WHERE store_seq = #{storeSeq}
     </select>
 
