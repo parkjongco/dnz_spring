@@ -11,6 +11,7 @@
 		JOIN store s ON r.user_id = s.member_id
 		WHERE r.status = #{status}
 		AND s.member_id = #{userId}
+		order by 1 desc
 	</select>
 
 
