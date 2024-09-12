@@ -43,8 +43,13 @@ public class ReservationDAO {
 	}
 
 	// 음식점 예약 삭제
-	public void reserveDelete(int reservationId) {
-		mybatis.delete("Reservation.delete", reservationId);
+	public void deleteReservation(int reservationId) {
+		mybatis.delete("Reservation.deleteReservation", reservationId);
+	}
+	
+	// 예약 ID로 예약 정보 조회
+	public ReservationDTO findReservationById(int reservationId) {
+		return mybatis.selectOne("Reservation.findReservationById", reservationId);
 	}
 
 	// 사용자의 예약 내역 가져오기
