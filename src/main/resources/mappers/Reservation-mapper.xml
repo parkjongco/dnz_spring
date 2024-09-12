@@ -8,10 +8,11 @@
 		resultType="com.kedu.dto.ReservationDTO">
 		SELECT *
 		FROM reservation r
-		JOIN members m ON r.user_id = m.user_seq
+		JOIN store s ON r.user_id = s.member_id
 		WHERE r.status = #{status}
-		AND m.user_id = #{userId}
+		AND s.member_id = #{userId}
 	</select>
+
 
 	<insert id="insert">
     insert into reservation (
