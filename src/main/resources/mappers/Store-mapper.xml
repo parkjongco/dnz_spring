@@ -30,12 +30,16 @@
     
     <!-- 가게 ID로 가게 정보 조회 -->
     <select id="getStoreById" parameterType="int" resultType="com.kedu.dto.StoreDTO">
-        SELECT store_seq, member_id, category, name, description, seat_status AS seatStatus,
-               created_at AS createdAt,
-               modified_at AS modifiedAt,
-               address1, address2, postcode, seat_capacity AS seatCapacity
+        SELECT store_seq AS storeSeq, member_id AS memberId, category, name, description,
+               seat_status AS seatStatus, created_at AS createdAt,
+               modified_at AS modifiedAt, address1, address2, postcode, seat_capacity AS seatCapacity
         FROM store
-        WHERE store_seq = #{storeSeq}
+        WHERE store_seq = #{storeId}
     </select>
-
+    
+    <!-- storeSeq로 음식점 이름 조회 -->
+    <select id="getStoreNameBySeq" parameterType="int" resultType="String">
+        SELECT name FROM store WHERE store_seq = #{storeSeq}
+    </select>
+    
 </mapper>
