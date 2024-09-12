@@ -26,7 +26,7 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
 
         // 토큰 검증
         if (token != null && jwtUtil.isVerfied(token)) {
-            String userId = jwtUtil.getSUbject(token);  // 토큰에서 사용자 ID 추출
+            String userId = jwtUtil.getSubject(token);  // 토큰에서 사용자 ID 추출
             attributes.put("user", userId);  // WebSocket 세션에 사용자 정보 추가
             System.out.println("WebSocket 연결 성공, 사용자 ID: " + userId);
             return true;
