@@ -14,14 +14,14 @@
 	</select>
 
 	<insert id="insert">
-		insert into reservation (
-		reservation_id, user_id, store_seq, reservation_date, reservation_time, num_guests,
-		status, created_at, updated_at
-		) values (
-		#{reservationId}, #{userId}, #{storeSeq}, #{reservationDate}, #{reservationTime},
-		#{numGuests}, #{status}, #{createdAt}, #{updatedAt}
-		)
-	</insert>
+    insert into reservation (
+        reservation_id, user_id, store_seq, reservation_date, reservation_time, num_guests,
+        status, created_at, updated_at
+    ) values (
+        reservation_seq.NEXTVAL, #{userId}, #{storeSeq}, #{reservationDate}, #{reservationTime},
+        #{numGuests}, 'pending', sysdate, null
+    )
+</insert>
 
 	<delete id="delete">
 		delete from reservation where reservation_id =

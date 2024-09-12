@@ -1,18 +1,16 @@
 package com.kedu.controllers;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,12 +62,34 @@ public class ReservationController {
 	
 	// 음식점 예약 등록
 	@PostMapping
-	public ResponseEntity<Void> post (@RequestBody ReservationDTO dto) {
+	public ResponseEntity<Void> post (@RequestBody ReservationDTO dto, Authentication authentication) {
 		System.out.println("Reservation Time: " + dto.getReservationTime());
 	    System.out.println("Reservation Date: " + dto.getReservationDate());
 	    System.out.println("Number of Guests: " + dto.getNumGuests());
+	    System.out.println("createdAt" + dto.getCreatedAt());
+	    System.out.println("status" + dto.getStatus());
 		System.out.println("예약 등록 접근");
+		
+		String userId = authentication.getName();
+		dto.setUserId(userId);
+		
+		// 날짜 형식 변환
+	    try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        Timestamp reservationDate = new Timestamp(dateFormat.parse(dto.getReservationDate().toString()).getTime());
+	        dto.setReservationDate(reservationDate);
+	    } catch (ParseException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    SimpleDateFormat dateOnlyFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    String formattedDate = dateOnlyFormat.format(dto.getReservationDate());
+	    
+		System.out.println("userId" + dto.getUserId());
+		System.out.println("Reservation Date (formatted): " + formattedDate);
+		
 		reservationService.post(dto);
+		
 		return ResponseEntity.ok().build();
 	}
 		
