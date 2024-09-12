@@ -65,6 +65,9 @@ public class ReservationController {
 	// 음식점 예약 등록
 	@PostMapping
 	public ResponseEntity<Void> post (@RequestBody ReservationDTO dto) {
+		System.out.println("Reservation Time: " + dto.getReservationTime());
+	    System.out.println("Reservation Date: " + dto.getReservationDate());
+	    System.out.println("Number of Guests: " + dto.getNumGuests());
 		System.out.println("예약 등록 접근");
 		reservationService.post(dto);
 		return ResponseEntity.ok().build();
@@ -74,7 +77,7 @@ public class ReservationController {
 //	@DeleteMapping	
 //	public ResponseEntity<Void> reserveDelete(@PathVariable int id, @AuthenticationPrincipal UserDetails user){
 //		String userId = user.getUsername();
-//		ReservationDTO reservation = reservationService.findByReserveId(id);
+//	ReservationDTO reservation = reservationService.findByReserveId(id);
 //		
 //		if(reservation != null && reservation.getUserId().equals(userId)) {
 //			reservationService.reserveDelete(id);

@@ -42,6 +42,11 @@ public class StoreDAO {
     public StoreDTO getStoreById(int storeId) {
     	return mybatis.selectOne("store.getStoreById", storeId);
     }
+    
+ // storeSeq로 음식점 이름 조회
+    public String getStoreNameBySeq(int storeSeq) {
+        return mybatis.selectOne("store.getStoreNameBySeq", storeSeq);
+    }
 }
 
 
