@@ -11,7 +11,6 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-
     private long expiration = 86400; // 토큰 만료 시간 24시간
 
     private Algorithm algo;
@@ -25,7 +24,7 @@ public class JwtUtil {
     public String createToken(String id, int userSeq) {
         return JWT.create()  // JWT 생성
                 .withSubject(id)  // 주제(Subject) 설정
-                .withClaim("userSeq", userSeq)
+                .withClaim("userSeq", userSeq) 
                 .withIssuedAt(new Date())  // 발행 시간 설정
                 .withExpiresAt(new Date(System.currentTimeMillis() + (expiration * 1000)))  // 만료 시간 설정
                 .sign(this.algo);  // 알고리즘을 사용하여 서명 및 토큰 생성
@@ -35,24 +34,27 @@ public class JwtUtil {
         return verifier.verify(token); // 토큰 검증
     }
 
-    public String getSUbject(String token) {
+    public String getSubject(String token) {
         DecodedJWT decodedJWT = this.verifier.verify(token); // 토큰에서 subject 추출
         return decodedJWT.getSubject();
     }
 
     public boolean isVerfied(String token) {
         try {
-            this.verifier.verify(token); // 토큰 검증
+            DecodedJWT decodedJWT = this.verifier.verify(token); // 토큰 검증
+            System.out.println("토큰 검증 성공, 만료 시간: " + decodedJWT.getExpiresAt());
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("JWT 검증 실패: " + e.getMessage()); // 예외 메시지 출력
             return false;
         }
     }
+
 
     // JWT에서 userSeq를 클레임에서 추출
     public int getUserSeq(String token) {
         DecodedJWT decodedJWT = this.verifier.verify(token);
         return decodedJWT.getClaim("userSeq").asInt();  // userSeq를 정수로 반환
     }
+    
 }

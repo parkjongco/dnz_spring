@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class ReservationDTO {
 	private int reservationId;
-    private int userId;
+    private String userId;
     private int storeSeq;
     private Timestamp reservationDate;
     private String reservationTime;
@@ -18,10 +18,10 @@ public class ReservationDTO {
 	public void setReservationId(int reservationId) {
 		this.reservationId = reservationId;
 	}
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public int getStoreSeq() {
@@ -66,7 +66,7 @@ public class ReservationDTO {
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	public ReservationDTO(int reservationId, int userId, int storeSeq, Timestamp reservationDate,
+	public ReservationDTO(int reservationId, String userId, int storeSeq, Timestamp reservationDate,
 			String reservationTime, int numGuests, String status, Timestamp createdAt, Timestamp updatedAt) {
 		super();
 		this.reservationId = reservationId;
@@ -79,9 +79,11 @@ public class ReservationDTO {
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
-    
-	public ReservationDTO() {
-		// TODO Auto-generated constructor stub
-	}
+
+    public ReservationDTO() {
+    	
+    }
+
+
     
 }
