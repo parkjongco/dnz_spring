@@ -19,8 +19,8 @@ public class PhotosController {
     @Autowired
     private PhotosService photosService;
 
-    // 가게의 사진 데이터를 가져오는 API
-    @GetMapping("/{storeSeq}")
+    // 특정 가게의 사진 데이터를 가져오는 API
+    @GetMapping("/store/{storeSeq}")
     public ResponseEntity<List<PhotosDTO>> getPhotosByStoreSeq(@PathVariable int storeSeq) {
         List<PhotosDTO> photos = photosService.getPhotosByStoreSeq(storeSeq);
         return ResponseEntity.ok(photos);
