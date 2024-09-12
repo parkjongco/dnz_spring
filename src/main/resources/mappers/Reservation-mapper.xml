@@ -8,26 +8,40 @@
 		resultType="com.kedu.dto.ReservationDTO">
 		SELECT *
 		FROM reservation r
-		JOIN store s ON r.user_id = s.member_id
+		JOIN store s ON r.user_id =
+		s.member_id
 		WHERE r.status = #{status}
 		AND s.member_id = #{userId}
 	</select>
 
 
 	<insert id="insert">
-    insert into reservation (
-        reservation_id, user_id, store_seq, reservation_date, reservation_time, num_guests,
-        status, created_at, updated_at
-    ) values (
-        reservation_seq.NEXTVAL, #{userId}, #{storeSeq}, #{reservationDate}, #{reservationTime},
-        #{numGuests}, 'pending', sysdate, null
-    )
-</insert>
+		insert into reservation (
+		reservation_id, user_id,
+		store_seq, reservation_date, reservation_time, num_guests,
+		status,
+		created_at, updated_at
+		) values (
+		reservation_seq.NEXTVAL, #{userId},
+		#{storeSeq}, #{reservationDate}, #{reservationTime},
+		#{numGuests},
+		'pending', sysdate, null
+		)
+	</insert>
 
 	<delete id="delete">
 		delete from reservation where reservation_id =
 		#{reservation_id}
 	</delete>
+
+	<select id="getReservationsByUserId"
+		resultType="com.kedu.dto.ReservationDTO">
+		SELECT r.*, s.name AS storeName
+		FROM reservation r
+		JOIN store s ON r.store_seq = s.store_seq
+		WHERE r.user_id = #{userId}
+		ORDER BY r.reservation_date DESC, reservation_time desc
+	</select>
 
 
 </mapper>

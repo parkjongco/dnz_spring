@@ -108,6 +108,21 @@ public class ReservationController {
 //		}		
 //	}
 	
+	// 모든 예약 내역을 조회하는 엔드포인트
+    @GetMapping("/user")
+    public ResponseEntity<Map<String, Object>> getUserReservations(Authentication authentication) {
+        // 사용자 ID를 추출
+        String userId = authentication.getName();
 
+        // 해당 사용자의 모든 예약 목록을 가져옴
+        List<ReservationDTO> reservations = reservationService.getReservationsByUserId(userId);
+
+        // 응답 데이터를 Map으로 구성
+        Map<String, Object> response = new HashMap<>();
+        response.put("userId", userId);
+        response.put("reservations", reservations);
+
+        return ResponseEntity.ok(response);
+    }
 	
 }
