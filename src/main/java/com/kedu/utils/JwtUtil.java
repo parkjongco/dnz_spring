@@ -55,4 +55,5 @@ public class JwtUtil {
         DecodedJWT decodedJWT = this.verifier.verify(token);
         return decodedJWT.getClaim("userSeq").asInt();  // userSeq를 정수로 반환
     }
+
 }
