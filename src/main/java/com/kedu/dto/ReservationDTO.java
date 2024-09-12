@@ -79,9 +79,11 @@ public class ReservationDTO {
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
-    
-	public ReservationDTO() {
-		// TODO Auto-generated constructor stub
-	}
+
+    public ReservationDTO() {
+    	
+    }
+
+
     
 }
