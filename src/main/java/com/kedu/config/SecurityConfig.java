@@ -29,7 +29,7 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
 
-                    config.setAllowedOrigins(Arrays.asList("http://192.168.1.10:3000", "http://localhost:3000", "http://192.168.1.36:3000", "http://192.168.1.11:3000", "http://192.168.1.19:3000"));
+                    config.setAllowedOrigins(Arrays.asList("http://192.168.1.10:3000","http://192.168.219.125:3000", "http://localhost:3000", "http://192.168.1.36:3000", "http://192.168.1.11:3000", "http://192.168.1.19:3000"));
                     config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "*"));
                     config.setAllowedMethods(Arrays.asList("*"));  // 모든 메서드를 명시적으로 허용
                     config.setAllowCredentials(true);

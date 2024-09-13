@@ -38,6 +38,9 @@ public class MembersService implements UserDetailsService {
         if (membersDAO.findByUserId(dto.getUserId()) != null) {
             throw new CustomException("User ID is already taken.");
         }
+        if(membersDAO.findByUserName(dto.getUserName()) != null) {
+            throw new CustomException("User name is already taken.");
+        }
 
         dto.setUserPw(passwordEncoder.encode(dto.getUserPw()));
         membersDAO.registerUser(dto);
@@ -61,6 +64,26 @@ public class MembersService implements UserDetailsService {
     public MembersDTO selectById(String userId) {
         return membersDAO.selectById(userId);
     }
+
+
+
+    public MembersDTO existEmail(String existEmail) {
+        return membersDAO.existEmail(existEmail);
+    }
+
+    public MembersDTO existId(String userId) {
+        return membersDAO.existId(userId);
+    }
+
+    public MembersDTO existPhoneNumber(String userPhoneNumber) {
+        return membersDAO.exsitPhoneNumber(userPhoneNumber);
+    }
+
+    public MembersDTO existName(String userName) {
+        return membersDAO.existName(userName);
+    }
+
+
 
 
 }
