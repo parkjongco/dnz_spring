@@ -35,7 +35,7 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
+
     @Autowired
     private NotificationService notificationService;  // 알림 서비스 주입
 
@@ -151,7 +151,7 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("token", token, "userId", mdto.getUserId(), "notificationCount", notificationCount));
     }
 
-//    비밀번호 재설정
+    //    비밀번호 재설정
     @PostMapping("/findPassword")
     public ResponseEntity<String> resetPassword(@RequestBody MembersDTO dto) {
         try {
@@ -163,7 +163,7 @@ public class AuthController {
             }
 
             // 비밀번호 재설정 서비스 호출
-            boolean success = emailVerificationService.resetPassword( dto.getUserId(),dto.getUserEmail());
+            boolean success = emailVerificationService.resetPassword(dto.getUserId(), dto.getUserEmail());
             if (success) {
                 return ResponseEntity.ok("임시 비밀번호가 이메일로 전송되었습니다.");
             } else {
@@ -176,7 +176,7 @@ public class AuthController {
         }
     }
 
-//    아이디찾기
+    //    아이디찾기
     @PostMapping("/findId")
     public ResponseEntity<String> findId(@RequestBody MembersDTO dto) {
         System.out.println(dto.getUserEmail() + ":" + dto.getUserPhoneNumber());
@@ -195,4 +195,59 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 정보를 가진 사용자를 찾을 수 없습니다.");
         }
     }
+
+    //아이디 중복체크
+    @PostMapping("/existId")
+    public ResponseEntity<String> existId(@RequestBody MembersDTO dto) {
+        MembersDTO existId = membersService.existId(dto.getUserId());
+
+        if (existId == null) {
+            return ResponseEntity.ok("미사용 아이디");
+    } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용중인 id");
+        }
+    }
+
+//    닉네임 중복 검사
+    @PostMapping("/existName")
+    public ResponseEntity<String> existName(@RequestBody MembersDTO dto) {
+
+        MembersDTO existName = membersService.existName(dto.getUserName());
+
+        if (existName != null) {
+            return ResponseEntity.ok(" 인증 완료");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당정보없음");
+        }
+    }
+
+//    핸드포번호 중복 검사
+    @PostMapping("/existPhoneNumber")
+    public ResponseEntity<String> existphoneNumber(@RequestBody MembersDTO dto) {
+
+        MembersDTO existphoneNumber = membersService.existPhoneNumber(dto.getUserPhoneNumber());
+
+        if (existphoneNumber == null) {
+            return ResponseEntity.ok(" 인증 완료");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당정보없음");
+        }
+    }
+
+//    이메일 중복 검사
+    @PostMapping("/existEmail")
+    public ResponseEntity<String> existEmail(@RequestBody MembersDTO dto) {
+
+        MembersDTO existEmail = membersService.existEmail(dto.getUserEmail());
+
+        if (existEmail != null) {
+            return ResponseEntity.ok(" 인증 완료");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당정보없음");
+        }
+    }
+
+
 }
+
+

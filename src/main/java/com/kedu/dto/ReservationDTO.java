@@ -12,6 +12,7 @@ public class ReservationDTO {
     private String status;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+    private String storeName;
 	public int getReservationId() {
 		return reservationId;
 	}
@@ -66,8 +67,15 @@ public class ReservationDTO {
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	public String getStoreName() {
+		return storeName;
+	}
+	public void setStoreName(String storeName) {
+		this.storeName = storeName;
+	}
+	
 	public ReservationDTO(int reservationId, String userId, int storeSeq, Timestamp reservationDate,
-			String reservationTime, int numGuests, String status, Timestamp createdAt, Timestamp updatedAt) {
+			String reservationTime, int numGuests, String status, Timestamp createdAt, Timestamp updatedAt, String storeName) {
 		super();
 		this.reservationId = reservationId;
 		this.userId = userId;
@@ -78,6 +86,7 @@ public class ReservationDTO {
 		this.status = status;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.storeName = storeName;
 	}
 
     public ReservationDTO() {
