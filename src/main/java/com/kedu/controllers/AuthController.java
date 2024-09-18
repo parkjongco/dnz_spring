@@ -208,6 +208,7 @@ public class AuthController {
         }
     }
 
+//    닉네임 중복 검사
     @PostMapping("/existName")
     public ResponseEntity<String> existName(@RequestBody MembersDTO dto) {
 
@@ -220,19 +221,21 @@ public class AuthController {
         }
     }
 
+//    핸드포번호 중복 검사
     @PostMapping("/existPhoneNumber")
     public ResponseEntity<String> existphoneNumber(@RequestBody MembersDTO dto) {
 
         MembersDTO existphoneNumber = membersService.existPhoneNumber(dto.getUserPhoneNumber());
 
-        if (existphoneNumber != null) {
+        if (existphoneNumber == null) {
             return ResponseEntity.ok(" 인증 완료");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당정보없음");
         }
     }
 
-    @PostMapping("/existemail")
+//    이메일 중복 검사
+    @PostMapping("/existEmail")
     public ResponseEntity<String> existEmail(@RequestBody MembersDTO dto) {
 
         MembersDTO existEmail = membersService.existEmail(dto.getUserEmail());
@@ -243,6 +246,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당정보없음");
         }
     }
+
 
 }
 

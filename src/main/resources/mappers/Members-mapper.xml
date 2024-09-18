@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="members">
 
     <!-- 사용자 ID로 아이디찾기    -->
@@ -11,7 +11,7 @@
         WHERE USER_ID = #{user_Id}
     </select>
 
-<!--아이디로 아이디찾기 조회-->
+    <!--아이디로 아이디찾기 조회-->
     <select id="findByUserId" resultType="com.kedu.dto.MembersDTO">
         SELECT *
         FROM members
@@ -32,15 +32,17 @@
         WHERE USER_PHONE_NUMBER = #{user_Phone_Number}
     </select>
 
-<!-- 닉네임으로 사용자 조회-->
+    <!-- 닉네임으로 사용자 조회-->
     <select id="findByUserName" resultType="com.kedu.dto.MembersDTO">
-        SELECT * from memebrs where user_name = #{user_Name}
+        SELECT * from members where user_name = #{user_Name}
     </select>
 
     <!-- 사용자 등록 -->
     <insert id="registerUser" parameterType="com.kedu.dto.MembersDTO">
-        INSERT INTO members (USER_SEQ, user_id, user_pw, USER_NAME, user_email, USER_PHONE_NUMBER, USER_BIRTH_DATE, WRITE_DATE)
-        VALUES (user_seq.NEXTVAL, #{userId}, #{userPw}, #{userName}, #{userEmail}, #{userPhoneNumber}, #{userBirthDate}, sysdate)
+        INSERT INTO members (USER_SEQ, user_id, user_pw, USER_NAME, user_email, USER_PHONE_NUMBER, USER_BIRTH_DATE,
+        WRITE_DATE)
+        VALUES (user_seq.NEXTVAL, #{userId}, #{userPw}, #{userName}, #{userEmail}, #{userPhoneNumber}, #{userBirthDate},
+        sysdate)
     </insert>
 
 
@@ -49,21 +51,14 @@
         SELECT *
         FROM members
         WHERE user_id = #{userId}
-          AND user_email = #{userEmail}
+        AND user_email = #{userEmail}
     </select>
 
 
-    <!-- 사용자 비밀번호 업데이트 -->
-    <update id="updateUserPassword" >
-        UPDATE members
-        SET user_pw = #{userPw}
-        WHERE user_id = #{userId}
-    </update>
-
-	<!-- Jik -->
-	<select id="selectByUserSeq" parameterType="int" resultType="com.kedu.dto.MembersDTO">
-	    SELECT * FROM members WHERE user_seq = #{userSeq}
-	</select>
+    <!-- Jik -->
+    <select id="selectByUserSeq" parameterType="int" resultType="com.kedu.dto.MembersDTO">
+        SELECT * FROM members WHERE user_seq = #{userSeq}
+    </select>
 
     <select id="findUserId" parameterType="map" resultType="string">
         SELECT user_id
@@ -71,6 +66,23 @@
         WHERE user_email = #{userEmail} AND user_phone_number = #{userPhoneNumber}
     </select>
 
+
+    <update id="updateUserProfile">
+        UPDATE members
+        SET
+        user_name = #{userName},
+        user_birth_date = #{userBirthDate},
+        user_phone_number = #{userPhoneNumber},
+        user_email = #{userEmail}
+        WHERE user_id = #{userId}
+    </update>
+
+<!--비밀번호 업데이트-->
+    <update id="updateUserPassword">
+        UPDATE members
+        SET user_pw = #{userPw}
+        WHERE user_id = #{userId}
+    </update>
 
 
 
