@@ -1,7 +1,6 @@
 package com.kedu.dao;
 
 import com.kedu.dto.MembersDTO;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -45,20 +44,21 @@ public class MembersDAO {
         return mdto;
     }
 
-//이메일인증
-    public MembersDTO selectByUserIdAndEmail(String userEmail,String userId) {
-        HashMap<String ,Object> map = new HashMap<>();
+    //이메일인증
+    public MembersDTO selectByUserIdAndEmail(String userEmail, String userId) {
+        HashMap<String, Object> map = new HashMap<>();
         map.put("userEmail", userEmail);
         map.put("userId", userId);
         return mybatis.selectOne("members.selectByUserIdAndEmail", map);
     }
-//비밀번호 업데이트
+
+    //비밀번호 업데이트
     public void updateUserPassword(MembersDTO dto) {
         mybatis.update("members.updateUserPassword", dto);
     }
 
 
-//    아이디찾기
+    //    아이디찾기
     public String findUserId(String userEmail, String userPhoneNumber) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("userEmail", userEmail);
@@ -70,16 +70,28 @@ public class MembersDAO {
         return mybatis.selectOne("members.findByEmail", user_Email);
     }
 
-    public MembersDTO existId(String user_Phone_Number) {
-        return mybatis.selectOne("members.findByPhoneNumber", user_Phone_Number);
+    public MembersDTO existId(String user_Id) {
+        return mybatis.selectOne("members.findByUserId", user_Id);
     }
 
-    public MembersDTO exsitPhoneNumber(String user_Id) {
-        return mybatis.selectOne("members.findByUserId", user_Id);
+    public MembersDTO exsitPhoneNumber(String user_Phone_Number) {
+        return mybatis.selectOne("members.findByPhoneNumber", user_Phone_Number);
     }
 
     public MembersDTO existName(String user_Name) {
         return mybatis.selectOne("members.findByUserName", user_Name);
+    }
+
+    public void updateUserProfile(MembersDTO membersDTO) {
+        mybatis.update("members.updateUserProfile", membersDTO);
+    }
+
+    // 비밀번호 업데이트
+    public void updateUserPassword(String userId, String userPw) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        map.put("userPw", userPw);  // XML과 일치하도록 수정
+        mybatis.update("members.updateUserPassword", map);
     }
 
 }

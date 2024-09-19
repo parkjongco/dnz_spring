@@ -5,10 +5,7 @@ import com.kedu.config.CustomException;
 import com.kedu.dto.ActivitiesDTO;
 import com.kedu.dto.EmailVerificationsDTO;
 import com.kedu.dto.MembersDTO;
-import com.kedu.services.ActivitiesService;
-import com.kedu.services.EmailVerificationService;
-import com.kedu.services.MembersService;
-import com.kedu.services.NotificationService;
+import com.kedu.services.*;
 import com.kedu.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +38,9 @@ public class AuthController {
 
     @Autowired
     private ActivitiesService activitiesService;  // 활동 서비스 주입
+
+    @Autowired
+    private StoreOwnerService storeOwnerService;
 
     // 이메일 인증 요청
     @PostMapping("/requestEmailVerification/{email}")
@@ -89,14 +89,16 @@ public class AuthController {
     @PostMapping("/registerUser")
     public ResponseEntity<String> registerUser(@RequestBody MembersDTO dto) {
         try {
-
             // 이메일 인증 확인
             boolean isEmailVerified = emailVerificationService.isEmailVerified(dto.getUserEmail());
             if (!isEmailVerified) {
                 return ResponseEntity.badRequest().body("이메일 인증이 완료되지 않았습니다.");
             }
-            // 회원 정보 저장 (미완료 상태)
+
+            // 회원 정보 저장
             membersService.registerUser(dto);
+
+          
 
             // 회원가입이 완료되었다는 메시지 전송
             return ResponseEntity.ok("회원가입이 완료되었습니다.");
@@ -107,6 +109,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
         }
     }
+
 
     // 로그인
     @PostMapping("/login")
@@ -208,6 +211,7 @@ public class AuthController {
         }
     }
 
+//    닉네임 중복 검사
     @PostMapping("/existName")
     public ResponseEntity<String> existName(@RequestBody MembersDTO dto) {
 
@@ -220,19 +224,21 @@ public class AuthController {
         }
     }
 
+//    핸드포번호 중복 검사
     @PostMapping("/existPhoneNumber")
     public ResponseEntity<String> existphoneNumber(@RequestBody MembersDTO dto) {
 
         MembersDTO existphoneNumber = membersService.existPhoneNumber(dto.getUserPhoneNumber());
 
-        if (existphoneNumber != null) {
+        if (existphoneNumber == null) {
             return ResponseEntity.ok(" 인증 완료");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당정보없음");
         }
     }
 
-    @PostMapping("/existemail")
+//    이메일 중복 검사
+    @PostMapping("/existEmail")
     public ResponseEntity<String> existEmail(@RequestBody MembersDTO dto) {
 
         MembersDTO existEmail = membersService.existEmail(dto.getUserEmail());
@@ -243,6 +249,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당정보없음");
         }
     }
+
 
 }
 

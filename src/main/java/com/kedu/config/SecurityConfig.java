@@ -25,14 +25,26 @@ public class SecurityConfig {
 
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http.cors(cors -> cors.configurationSource(request -> {
+        http
+                .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
+<<<<<<< HEAD
 
 
                     config.setAllowedOrigins(Arrays.asList("http://192.168.1.10:3000","http://192.168.219.125:3000", "http://localhost:3000", "http://192.168.1.36:3000", "http://192.168.1.11:3000", "http://192.168.1.19:3000" ,"http://172.30.1.29:3000"));
 
                     config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "*"));
+=======
+                    config.setAllowedOrigins(Arrays.asList(
+                            "http://192.168.1.10:3000",
+                            "http://192.168.219.125:3000",
+                            "http://localhost:3000",
+                            "http://192.168.1.36:3000",
+                            "http://192.168.1.11:3000",
+                            "http://192.168.1.19:3000"
+                    ));
+                    config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
+>>>>>>> d435f6b305d258901ddc0f5c5acc824ac6a7b6cd
                     config.setAllowedMethods(Arrays.asList("*"));  // 모든 메서드를 명시적으로 허용
                     config.setAllowCredentials(true);
                     return config;
@@ -41,6 +53,7 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
+<<<<<<< HEAD
                 		  // 인증 없이 접근 가능한 경로 설정
                         .requestMatchers(HttpMethod.GET, "/store/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/maps/**").permitAll()
@@ -50,14 +63,20 @@ public class SecurityConfig {
                         // 나머지 모든 요청은 인증 필요
                                                                    
                         // 나머지 모든 요청은 인증 필요
+=======
+                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/store/category/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/photos/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/photos/store/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/mypage/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/members/userProfile/**").authenticated() // 인증된 사용자만 접근
+>>>>>>> d435f6b305d258901ddc0f5c5acc824ac6a7b6cd
                         .anyRequest().authenticated())
-                // JWT 인증 필터를 UsernamePasswordAuthenticationFilter 앞에 추가
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
-    // 패스워드 암호화
     @Bean
     protected PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
