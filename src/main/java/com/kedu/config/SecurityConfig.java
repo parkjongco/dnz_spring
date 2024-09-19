@@ -28,15 +28,13 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(Arrays.asList(
-                            "http://192.168.1.10:3000",
-                            "http://192.168.219.125:3000",
-                            "http://localhost:3000",
-                            "http://192.168.1.36:3000",
-                            "http://192.168.1.11:3000",
-                            "http://192.168.1.19:3000"
-                    ));
-                    config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
+
+
+
+                    config.setAllowedOrigins(Arrays.asList("http://192.168.1.10:3000","http://192.168.219.125:3000", "http://localhost:3000", "http://192.168.1.36:3000", "http://192.168.1.11:3000", "http://192.168.1.19:3000" ,"http://172.30.1.29:3000"));
+
+                    config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "*"));
+
                     config.setAllowedMethods(Arrays.asList("*"));  // 모든 메서드를 명시적으로 허용
                     config.setAllowCredentials(true);
                     return config;
@@ -45,12 +43,17 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/store/category/**").permitAll()
+
+                        // 인증 없이 접근 가능한 경로 설정
+                        .requestMatchers(HttpMethod.GET, "/store/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/maps/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/photos/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/photos/store/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/mypage/**").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/members/userProfile/**").authenticated() // 인증된 사용자만 접근
+                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                        // 나머지 모든 요청은 인증 필요
+
+                        // 나머지 모든 요청은 인증 필요
+
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
