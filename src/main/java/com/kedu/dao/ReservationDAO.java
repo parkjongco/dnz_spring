@@ -56,5 +56,10 @@ public class ReservationDAO {
 	public List<ReservationDTO>getReservationsByUserId(String userId){
 		return mybatis.selectList("Reservation.getReservationsByUserId", userId);
 	}
+	
+	// 예약 상태 업데이트
+	public void updateReservationStatus(ReservationDTO reservation) {
+		mybatis.update("Reservation.updateReservationStatus", reservation);
+	}
 
 }

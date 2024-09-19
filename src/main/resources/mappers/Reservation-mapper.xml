@@ -57,5 +57,11 @@
 		r.reservation_date DESC, reservation_time desc
 	</select>
 
+	<!-- 예약 상태 변경 -->
+	<update id="updateReservationStatus">
+		update reservation
+		set status = #{status}
+		where reservation_id = #{reservationId}
+	</update>
 
 </mapper>
