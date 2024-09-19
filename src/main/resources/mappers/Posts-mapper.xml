@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Posts">
+    <!-- 게시물 삽입 쿼리 -->
+    <insert id="insertPost">
+        INSERT INTO posts (post_id, title, content, image_url, created_at, updated_at)
+        VALUES (
+            post_seq.NEXTVAL,
+            #{title},
+            #{content},
+            <if test="imageUrl != null">
+                #{imageUrl}
+            </if>
+            <if test="imageUrl == null">
+                NULL
+            </if>,
+            CURRENT_TIMESTAMP,
+            CURRENT_TIMESTAMP
+        )
+    </insert>
+
+    <!-- 게시물 조회 쿼리 (추가) -->
+    <select id="getAllPosts" resultType="com.kedu.dto.PostDTO">
+        SELECT post_id, title, content, image_url, created_at, updated_at
+        FROM posts
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 게시물 수정 쿼리 (수정) -->
+    <update id="updatePost">
+	    UPDATE posts
+	    SET 
+	        title = #{title},
+	        content = #{content},
+	        updated_at = CURRENT_TIMESTAMP
+	        <if test="imageUrl != null">
+	            , image_url = #{imageUrl}
+	        </if>
+	    WHERE post_id = #{postId}
+	</update>
+
+
+    <!-- 게시물 삭제 쿼리 (수정) -->
+    <delete id="deletePost">
+        DELETE FROM posts WHERE post_id = #{postId}
+    </delete>
+</mapper>
