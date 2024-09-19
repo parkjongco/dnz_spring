@@ -5,10 +5,7 @@ import com.kedu.config.CustomException;
 import com.kedu.dto.ActivitiesDTO;
 import com.kedu.dto.EmailVerificationsDTO;
 import com.kedu.dto.MembersDTO;
-import com.kedu.services.ActivitiesService;
-import com.kedu.services.EmailVerificationService;
-import com.kedu.services.MembersService;
-import com.kedu.services.NotificationService;
+import com.kedu.services.*;
 import com.kedu.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,12 +32,15 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
+
     @Autowired
     private NotificationService notificationService;  // 알림 서비스 주입
 
     @Autowired
     private ActivitiesService activitiesService;  // 활동 서비스 주입
+
+    @Autowired
+    private StoreOwnerService storeOwnerService;
 
     // 이메일 인증 요청
     @PostMapping("/requestEmailVerification/{email}")
@@ -89,14 +89,16 @@ public class AuthController {
     @PostMapping("/registerUser")
     public ResponseEntity<String> registerUser(@RequestBody MembersDTO dto) {
         try {
-
             // 이메일 인증 확인
             boolean isEmailVerified = emailVerificationService.isEmailVerified(dto.getUserEmail());
             if (!isEmailVerified) {
                 return ResponseEntity.badRequest().body("이메일 인증이 완료되지 않았습니다.");
             }
-            // 회원 정보 저장 (미완료 상태)
+
+            // 회원 정보 저장
             membersService.registerUser(dto);
+
+          
 
             // 회원가입이 완료되었다는 메시지 전송
             return ResponseEntity.ok("회원가입이 완료되었습니다.");
@@ -107,6 +109,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
         }
     }
+
 
     // 로그인
     @PostMapping("/login")
@@ -151,7 +154,7 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("token", token, "userId", mdto.getUserId(), "notificationCount", notificationCount));
     }
 
-//    비밀번호 재설정
+    //    비밀번호 재설정
     @PostMapping("/findPassword")
     public ResponseEntity<String> resetPassword(@RequestBody MembersDTO dto) {
         try {
@@ -163,7 +166,7 @@ public class AuthController {
             }
 
             // 비밀번호 재설정 서비스 호출
-            boolean success = emailVerificationService.resetPassword( dto.getUserId(),dto.getUserEmail());
+            boolean success = emailVerificationService.resetPassword(dto.getUserId(), dto.getUserEmail());
             if (success) {
                 return ResponseEntity.ok("임시 비밀번호가 이메일로 전송되었습니다.");
             } else {
@@ -176,7 +179,7 @@ public class AuthController {
         }
     }
 
-//    아이디찾기
+    //    아이디찾기
     @PostMapping("/findId")
     public ResponseEntity<String> findId(@RequestBody MembersDTO dto) {
         System.out.println(dto.getUserEmail() + ":" + dto.getUserPhoneNumber());
@@ -195,4 +198,59 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 정보를 가진 사용자를 찾을 수 없습니다.");
         }
     }
+
+    //아이디 중복체크
+    @PostMapping("/existId")
+    public ResponseEntity<String> existId(@RequestBody MembersDTO dto) {
+        MembersDTO existId = membersService.existId(dto.getUserId());
+
+        if (existId == null) {
+            return ResponseEntity.ok("미사용 아이디");
+    } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용중인 id");
+        }
+    }
+
+//    닉네임 중복 검사
+    @PostMapping("/existName")
+    public ResponseEntity<String> existName(@RequestBody MembersDTO dto) {
+
+        MembersDTO existName = membersService.existName(dto.getUserName());
+
+        if (existName != null) {
+            return ResponseEntity.ok(" 인증 완료");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당정보없음");
+        }
+    }
+
+//    핸드포번호 중복 검사
+    @PostMapping("/existPhoneNumber")
+    public ResponseEntity<String> existphoneNumber(@RequestBody MembersDTO dto) {
+
+        MembersDTO existphoneNumber = membersService.existPhoneNumber(dto.getUserPhoneNumber());
+
+        if (existphoneNumber == null) {
+            return ResponseEntity.ok(" 인증 완료");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당정보없음");
+        }
+    }
+
+//    이메일 중복 검사
+    @PostMapping("/existEmail")
+    public ResponseEntity<String> existEmail(@RequestBody MembersDTO dto) {
+
+        MembersDTO existEmail = membersService.existEmail(dto.getUserEmail());
+
+        if (existEmail != null) {
+            return ResponseEntity.ok(" 인증 완료");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당정보없음");
+        }
+    }
+
+
 }
+
+

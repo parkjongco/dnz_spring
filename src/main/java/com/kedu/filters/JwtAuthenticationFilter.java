@@ -56,7 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // 토큰이 유효한지 검증
             if (jwt.isVerfied(token)) {
-                String userId = jwt.getSUbject(token);  // 토큰에서 사용자 ID 추출
+                String userId = jwt.getSubject(token);  // 토큰에서 사용자 ID 추출
                 UserDetails userDetails = membersService.loadUserByUsername(userId);
 
                 // 유효한 사용자라면 SecurityContext에 설정

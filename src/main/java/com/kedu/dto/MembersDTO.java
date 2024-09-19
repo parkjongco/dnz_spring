@@ -13,9 +13,22 @@ public class MembersDTO {
 	    private String userEmail;
 	    private String userBirthDate;
 		private Timestamp writeDate;
+	private boolean isStoreOwner;
+	private StoreOwnerDTO storeData;
 
-	    
-		public MembersDTO() {}
+	public MembersDTO() {}
+	public MembersDTO(int userSeq, String userId, String userPw, String userName, String userPhoneNumber, String userEmail, String userBirthDate, Timestamp writeDate, boolean isStoreOwner, StoreOwnerDTO storeData) {
+		this.userSeq = userSeq;
+		this.userId = userId;
+		this.userPw = userPw;
+		this.userName = userName;
+		this.userPhoneNumber = userPhoneNumber;
+		this.userEmail = userEmail;
+		this.userBirthDate = userBirthDate;
+		this.writeDate = writeDate;
+		this.isStoreOwner = isStoreOwner;
+		this.storeData = storeData;
+	}
 
 	public int getUserSeq() {
 		return userSeq;
@@ -81,16 +94,19 @@ public class MembersDTO {
 		this.writeDate = writeDate;
 	}
 
+	public boolean isStoreOwner() {
+		return isStoreOwner;
+	}
 
+	public void setStoreOwner(boolean storeOwner) {
+		isStoreOwner = storeOwner;
+	}
 
-	public MembersDTO(int userSeq, String userId, String userPw, String userName, String userPhoneNumber, String userEmail, String userBirthDate, Timestamp writeDate) {
-		this.userSeq = userSeq;
-		this.userId = userId;
-		this.userPw = userPw;
-		this.userName = userName;
-		this.userPhoneNumber = userPhoneNumber;
-		this.userEmail = userEmail;
-		this.userBirthDate = userBirthDate;
-		this.writeDate = writeDate;
+	public StoreOwnerDTO getStoreData() {
+		return storeData;
+	}
+
+	public void setStoreData(StoreOwnerDTO storeData) {
+		this.storeData = storeData;
 	}
 }

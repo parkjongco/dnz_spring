@@ -8,26 +8,60 @@
 		resultType="com.kedu.dto.ReservationDTO">
 		SELECT *
 		FROM reservation r
-		JOIN store s ON r.user_id = s.member_id
+		JOIN store s ON r.user_id =
+		s.member_id
 		WHERE r.status = #{status}
 		AND s.member_id = #{userId}
+		order by 1 desc
 	</select>
 
-
+	
+	<!-- 음식점 예약 등록  -->
 	<insert id="insert">
-    insert into reservation (
-        reservation_id, user_id, store_seq, reservation_date, reservation_time, num_guests,
-        status, created_at, updated_at
-    ) values (
-        reservation_seq.NEXTVAL, #{userId}, #{storeSeq}, #{reservationDate}, #{reservationTime},
-        #{numGuests}, 'pending', sysdate, null
-    )
-</insert>
-
-	<delete id="delete">
-		delete from reservation where reservation_id =
-		#{reservation_id}
+		insert into reservation (
+		reservation_id, user_id,
+		store_seq, reservation_date, reservation_time, num_guests,
+		status,
+		created_at, updated_at
+		) values (
+		reservation_seq.NEXTVAL, #{userId},
+		#{storeSeq}, #{reservationDate}, #{reservationTime},
+		#{numGuests},
+		'pending', sysdate, null
+		)
+	</insert>
+	
+	<!-- 본인 예약 삭제 -->
+	<delete id="deleteReservation">
+		DELETE FROM reservation
+		WHERE reservation_id =
+		#{reservationId}
 	</delete>
+	
+	<!-- 삭제할때 예약 id 조회 -->
+	<select id="findReservationById"
+		resultType="com.kedu.dto.ReservationDTO">
+		SELECT * FROM reservation
+		WHERE reservation_id = #{reservationId}
+	</select>
+	
+	<!-- 본인 예약 목록 모두 조회 -->
+	<select id="getReservationsByUserId"
+		resultType="com.kedu.dto.ReservationDTO">
+		SELECT r.*, s.name AS storeName
+		FROM reservation r
+		JOIN store
+		s ON r.store_seq = s.store_seq
+		WHERE r.user_id = #{userId}
+		ORDER BY
+		r.reservation_date DESC, reservation_time desc
+	</select>
 
+	<!-- 예약 상태 변경 -->
+	<update id="updateReservationStatus">
+		update reservation
+		set status = #{status}
+		where reservation_id = #{reservationId}
+	</update>
 
 </mapper>
