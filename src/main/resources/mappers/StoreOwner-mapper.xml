@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="storeOwners">
+
+    <insert id="registerStoreOwner" parameterType="com.kedu.dto.StoreOwnerDTO">
+        INSERT INTO store_owners (owner_id, business_number, representative_name, store_address, business_type, user_id)
+        VALUES (store_owners_seq.nextval, #{businessNumber}, #{representativeName}, #{storeAddress}, #{businessType}, #{userId})
+    </insert>
+
+</mapper>
