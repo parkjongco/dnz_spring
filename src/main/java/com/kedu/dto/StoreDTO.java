@@ -112,4 +112,6 @@ public class StoreDTO {
    public StoreDTO() {
       // 기본 생성자
    }
+
+
 }

@@ -21,6 +21,7 @@ public class MembersService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
     @Autowired
     public MembersService(PasswordEncoder passwordEncoder, MembersDAO membersDAO) {
         this.passwordEncoder = passwordEncoder;
@@ -46,6 +47,7 @@ public class MembersService implements UserDetailsService {
 
         dto.setUserPw(passwordEncoder.encode(dto.getUserPw()));
         membersDAO.registerUser(dto);
+
     }
 
 
