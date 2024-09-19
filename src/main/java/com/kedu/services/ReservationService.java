@@ -3,7 +3,6 @@ package com.kedu.services;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +35,18 @@ public class ReservationService {
 	}
 	
 	// 음식점 예약 삭제
-	public void reserveDelete(int reservationId) {
-		reservationDAO.reserveDelete(reservationId);
+	public void deleteReservation(int reservationId) {
+		reservationDAO.deleteReservation(reservationId);
+	}
+	
+	// 예약 Id로 예약 조회(삭제하기 위해)
+	public ReservationDTO findReservationById(int reservationId) {
+		return reservationDAO.findReservationById(reservationId);
+	}
+	
+	// 사용자의 모든 예약 가져오기
+	public List<ReservationDTO> getReservationsByUserId(String userId){
+		return reservationDAO.getReservationsByUserId(userId);
 	}
 
 }

@@ -4,13 +4,14 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="members">
 
-    <!-- 사용자 ID로 사용자 조회 -->
+    <!-- 사용자 ID로 아이디찾기    -->
     <select id="selectById" resultType="com.kedu.dto.MembersDTO">
         SELECT *
         FROM members
         WHERE USER_ID = #{user_Id}
     </select>
 
+<!--아이디로 아이디찾기 조회-->
     <select id="findByUserId" resultType="com.kedu.dto.MembersDTO">
         SELECT *
         FROM members
@@ -29,6 +30,11 @@
         SELECT *
         FROM members
         WHERE USER_PHONE_NUMBER = #{user_Phone_Number}
+    </select>
+
+<!-- 닉네임으로 사용자 조회-->
+    <select id="findByUserName" resultType="com.kedu.dto.MembersDTO">
+        SELECT * from memebrs where user_name = #{user_Name}
     </select>
 
     <!-- 사용자 등록 -->
