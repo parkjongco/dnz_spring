@@ -1,6 +1,7 @@
 package com.kedu.dao;
 
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kedu.dto.CancellationRecordDTO;
 import com.kedu.dto.ReservationDTO;
 
 
@@ -57,9 +59,19 @@ public class ReservationDAO {
 		return mybatis.selectList("Reservation.getReservationsByUserId", userId);
 	}
 	
+	// 취소 기록 저장
+    public void recordCancellation(CancellationRecordDTO cancellationRecordDTO) {
+        mybatis.insert("Reservation.recordCancellation", cancellationRecordDTO);
+    }
+	
 	// 예약 상태 업데이트
 	public void updateReservationStatus(ReservationDTO reservation) {
 		mybatis.update("Reservation.updateReservationStatus", reservation);
 	}
+
+    // 사용자의 마지막 취소 시간을 가져오기
+    public Timestamp getLastCancellationTime(String userId) {
+        return mybatis.selectOne("Reservation.getLastCancellationTime", userId);
+    }
 
 }

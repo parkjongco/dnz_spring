@@ -12,11 +12,12 @@
 		s.member_id
 		WHERE r.status = #{status}
 		AND s.member_id = #{userId}
-		order by 1 desc
+		order
+		by 1 desc
 	</select>
 
-	
-	<!-- 음식점 예약 등록  -->
+
+	<!-- 음식점 예약 등록 -->
 	<insert id="insert">
 		insert into reservation (
 		reservation_id, user_id,
@@ -30,21 +31,22 @@
 		'pending', sysdate, null
 		)
 	</insert>
-	
+
 	<!-- 본인 예약 삭제 -->
 	<delete id="deleteReservation">
 		DELETE FROM reservation
 		WHERE reservation_id =
 		#{reservationId}
 	</delete>
-	
+
 	<!-- 삭제할때 예약 id 조회 -->
 	<select id="findReservationById"
 		resultType="com.kedu.dto.ReservationDTO">
 		SELECT * FROM reservation
-		WHERE reservation_id = #{reservationId}
+		WHERE reservation_id =
+		#{reservationId}
 	</select>
-	
+
 	<!-- 본인 예약 목록 모두 조회 -->
 	<select id="getReservationsByUserId"
 		resultType="com.kedu.dto.ReservationDTO">
@@ -57,11 +59,34 @@
 		r.reservation_date DESC, reservation_time desc
 	</select>
 
+	<!-- 취소 기록 저장 -->
+	<insert id="recordCancellation">
+		INSERT INTO cancellation_records (
+		cancellation_id, user_id, cancellation_time
+		) VALUES (
+		cancellation_id_seq.NEXTVAL, #{userId}, #{cancellationTime}
+		)
+	</insert>
+
+	<!-- 사용자의 마지막 취소 시간을 가져오기 -->
+	<select id="getLastCancellationTime"
+		resultType="java.sql.Timestamp">
+		SELECT cancellation_time
+		FROM (
+		SELECT cancellation_time
+		FROM cancellation_records
+		WHERE user_id = #{userId}
+		ORDER BY cancellation_time DESC
+		)
+		WHERE ROWNUM = 1
+	</select>
+
 	<!-- 예약 상태 변경 -->
 	<update id="updateReservationStatus">
 		update reservation
 		set status = #{status}
-		where reservation_id = #{reservationId}
+		where
+		reservation_id = #{reservationId}
 	</update>
 
 </mapper>
