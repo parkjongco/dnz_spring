@@ -49,4 +49,8 @@ public class ReservationService {
 		return reservationDAO.getReservationsByUserId(userId);
 	}
 
+	public void updateReservation(ReservationDTO reservation) {
+        reservationDAO.updateReservationStatus(reservation);
+    }
+	
 }
