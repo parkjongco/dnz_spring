@@ -3,86 +3,68 @@ package com.kedu.dto;
 import java.sql.Timestamp;
 
 public class ReviewsDTO {
-	private int id;
-	private int businessId;
-	private int customerId;
+	private int reviewId;
+	private int storeSeq;
+	private String userId;
+	private int reservationId;
 	private int rating;
-	private String comment;
+	private String reviewText;
 	private Timestamp createdAt;
-	 
-	 
-	public ReviewsDTO() {}
-
-
-	public ReviewsDTO(int id, int businessId, int customerId, int rating, String comment, Timestamp createdAt) {
-		super();
-		this.id = id;
-		this.businessId = businessId;
-		this.customerId = customerId;
-		this.rating = rating;
-		this.comment = comment;
-		this.createdAt = createdAt;
+	
+	public int getReviewId() {
+		return reviewId;
 	}
-
-
-	public int getId() {
-		return id;
+	public void setReviewId(int reviewId) {
+		this.reviewId = reviewId;
 	}
-
-
-	public void setId(int id) {
-		this.id = id;
+	public int getStoreSeq() {
+		return storeSeq;
 	}
-
-
-	public int getBusinessId() {
-		return businessId;
+	public void setStoreSeq(int storeSeq) {
+		this.storeSeq = storeSeq;
 	}
-
-
-	public void setBusinessId(int businessId) {
-		this.businessId = businessId;
+	public String getUserId() {
+		return userId;
 	}
-
-
-	public int getCustomerId() {
-		return customerId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-
-
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
+	public int getReservationId() {
+		return reservationId;
 	}
-
-
+	public void setReservationId(int reservationId) {
+		this.reservationId = reservationId;
+	}
 	public int getRating() {
 		return rating;
 	}
-
-
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-
-
-	public String getComment() {
-		return comment;
+	public String getReviewText() {
+		return reviewText;
 	}
-
-
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setReviewText(String reviewText) {
+		this.reviewText = reviewText;
 	}
-
-
 	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
-
-
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
 	
-
+	public ReviewsDTO() {}
+	
+	public ReviewsDTO(int reviewId, int storeSeq, String userId, int reservationId, int rating, String reviewText,
+			Timestamp createdAt) {
+		super();
+		this.reviewId = reviewId;
+		this.storeSeq = storeSeq;
+		this.userId = userId;
+		this.reservationId = reservationId;
+		this.rating = rating;
+		this.reviewText = reviewText;
+		this.createdAt = createdAt;
+	}
 }

@@ -56,6 +56,24 @@
 		ORDER BY
 		r.reservation_date DESC, reservation_time desc
 	</select>
+	
+	<!-- 취소 기록 저장 -->
+    <insert id="recordCancellation">
+        INSERT INTO cancellation_records (
+            cancellation_id, user_id, cancellation_time
+        ) VALUES (
+            cancellation_id_seq.NEXTVAL, #{userId}, #{cancellationTime}
+        )
+    </insert>
+
+    <!-- 사용자의 마지막 취소 시간을 가져오기 -->
+    <select id="getLastCancellationTime" resultType="java.sql.Timestamp">
+        SELECT cancellation_time
+        FROM cancellation_records
+        WHERE user_id = #{userId}
+        ORDER BY cancellation_time DESC
+        FETCH FIRST 1 ROWS ONLY
+    </select>
 
 
 </mapper>
