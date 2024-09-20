@@ -1,6 +1,7 @@
 package com.kedu.controllers;
 
 import java.sql.Timestamp;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -152,11 +153,9 @@ public class ReservationController {
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-    }
     
-		return ResponseEntity.ok(response);
-	}
-
+	
+    }
 	// 예약 가능 여부를 확인하는 API
 	@GetMapping("/checkEligibility")
 	public ResponseEntity<Map<String, Boolean>> checkReservationEligibility(Authentication authentication) {
