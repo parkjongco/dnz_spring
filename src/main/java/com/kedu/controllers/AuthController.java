@@ -5,6 +5,7 @@ import com.kedu.config.CustomException;
 import com.kedu.dto.ActivitiesDTO;
 import com.kedu.dto.EmailVerificationsDTO;
 import com.kedu.dto.MembersDTO;
+import com.kedu.dto.StoreOwnerDTO;
 import com.kedu.services.*;
 import com.kedu.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class AuthController {
     @Autowired
     private MembersService membersService;
 
+    @Autowired
+    private StoreService storeService;
     @Autowired
     private EmailVerificationService emailVerificationService;
 
@@ -94,12 +97,8 @@ public class AuthController {
             if (!isEmailVerified) {
                 return ResponseEntity.badRequest().body("이메일 인증이 완료되지 않았습니다.");
             }
-
             // 회원 정보 저장
             membersService.registerUser(dto);
-
-          
-
             // 회원가입이 완료되었다는 메시지 전송
             return ResponseEntity.ok("회원가입이 완료되었습니다.");
         } catch (CustomException e) {
@@ -109,6 +108,30 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
         }
     }
+
+        @PostMapping("/registerOwner")
+        public ResponseEntity<String> registerUser(@RequestBody MembersDTO MembersDTO,@RequestBody StoreOwnerDTO storeOwnerDTO) {
+            try {
+                // 이메일 인증 확인
+                boolean isEmailVerified = emailVerificationService.isEmailVerified(MembersDTO.getUserEmail());
+                if (!isEmailVerified) {
+                    return ResponseEntity.badRequest().body("이메일 인증이 완료되지 않았습니다.");
+                }
+                // 회원 정보 저장
+                membersService.registerUser(MembersDTO);
+
+                // 저장된 userId로 Owner 정보를 저장
+                storeOwnerDTO.setUserId(MembersDTO.getUserId()); // dto로부터 userId 설정
+//                storeService.registerStoreOwner(storeOwnerDTO);
+                // 회원가입이 완료되었다는 메시지 전송
+                return ResponseEntity.ok("회원가입이 완료되었습니다.");
+            } catch (CustomException e) {
+                return ResponseEntity.badRequest().body(e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+            }
+        }
 
 
     // 로그인
