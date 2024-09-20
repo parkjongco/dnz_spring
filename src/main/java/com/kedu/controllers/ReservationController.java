@@ -1,31 +1,22 @@
 package com.kedu.controllers;
 
+import com.kedu.dto.ReservationDTO;
+import com.kedu.services.ReservationService;
+import com.kedu.utils.JwtUtil;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
 import java.sql.Timestamp;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.kedu.dto.ReservationDTO;
-import com.kedu.services.ReservationService;
-import com.kedu.utils.JwtUtil;
-
-import jakarta.servlet.http.HttpSession;
 
 
 @RestController
@@ -154,8 +145,6 @@ public class ReservationController {
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-	}
-    
 
 	// 예약 가능 여부를 확인하는 API
 	@GetMapping("/checkEligibility")
