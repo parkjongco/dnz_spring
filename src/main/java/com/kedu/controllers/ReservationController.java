@@ -58,38 +58,40 @@ public class ReservationController {
 	// 음식점 예약 등록
 	@PostMapping
 	public ResponseEntity<String> post(@RequestBody ReservationDTO dto, Authentication authentication) {
-		// 사용자 ID 설정
-		String userId = authentication.getName();
-		dto.setUserId(userId);
+	    // 사용자 ID 설정
+	    String userId = authentication.getName();
+	    dto.setUserId(userId);
 
-		// 24시간 예약 제한 확인
-		boolean canReserve = reservationService.canMakeReservation(userId);
-		if (!canReserve) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN)
-					.body("최근 24시간 이내 취소로 인해 예약이 불가능합니다.");
-		}
+	    // 예약 가능 여부 확인 (3분 제한)
+	    boolean canReserve = reservationService.canMakeReservation(userId);
+	    if (!canReserve) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+	                .body("당일 취소로 인해 24시간 동안 예약이 불가능합니다.");
+	    }
 
-		// 날짜 형식 변환 처리
-		try {
-			// 'yyyy-MM-dd' 형식의 날짜 문자열을 Timestamp로 변환
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Timestamp reservationDate = new Timestamp(dateFormat.parse(dto.getReservationDate().toString()).getTime());
-			dto.setReservationDate(reservationDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body("예약 날짜 형식이 잘못되었습니다.");
-		}
+	    // 날짜 형식 변환 처리
+	    try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        Timestamp reservationDate = new Timestamp(dateFormat.parse(dto.getReservationDate().toString()).getTime());
+	        dto.setReservationDate(reservationDate);
+	    } catch (ParseException e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                .body("예약 날짜 형식이 잘못되었습니다.");
+	    }
 
-		// 로그 출력 및 예약 처리
-		System.out.println("userId: " + dto.getUserId());
-		System.out.println("Reservation Date: " + dto.getReservationDate());
+	    // 예약 등록 시도
+	    try {
+	        reservationService.post(dto);
+	    } catch (Exception e) {
+	        e.printStackTrace();  // 예외를 서버 로그에 기록
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("서버 내부 오류로 인해 예약 등록에 실패했습니다.");
+	    }
 
-		// 예약 등록 서비스 호출
-		reservationService.post(dto);
-
-		return ResponseEntity.ok("예약이 성공적으로 등록되었습니다.");
+	    return ResponseEntity.ok("예약이 성공적으로 등록되었습니다.");
 	}
+
 
 	// 사용자 예약 삭제 엔드포인트
 	@DeleteMapping("/{reservationId}")
@@ -143,9 +145,6 @@ public class ReservationController {
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-    
-	
-    }
 
 	// 예약 가능 여부를 확인하는 API
 	@GetMapping("/checkEligibility")
