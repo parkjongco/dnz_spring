@@ -63,6 +63,11 @@ public class ReservationDAO {
     public void recordCancellation(CancellationRecordDTO cancellationRecordDTO) {
         mybatis.insert("Reservation.recordCancellation", cancellationRecordDTO);
     }
+	
+	// 예약 상태 업데이트
+	public void updateReservationStatus(ReservationDTO reservation) {
+		mybatis.update("Reservation.updateReservationStatus", reservation);
+	}
 
     // 사용자의 마지막 취소 시간을 가져오기
     public Timestamp getLastCancellationTime(String userId) {

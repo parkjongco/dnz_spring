@@ -75,5 +75,11 @@
         FETCH FIRST 1 ROWS ONLY
     </select>
 
+	<!-- 예약 상태 변경 -->
+	<update id="updateReservationStatus">
+		update reservation
+		set status = #{status}
+		where reservation_id = #{reservationId}
+	</update>
 
 </mapper>

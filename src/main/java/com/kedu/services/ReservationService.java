@@ -58,6 +58,10 @@ public class ReservationService {
 		return reservationDAO.getReservationsByUserId(userId);
 	}
 
+	public void updateReservation(ReservationDTO reservation) {
+        reservationDAO.updateReservationStatus(reservation);
+    }
+	
 	// 취소 기록 저장
 	public void recordCancellation(String userId) {
 		CancellationRecordDTO cancellationRecordDTO = new CancellationRecordDTO();

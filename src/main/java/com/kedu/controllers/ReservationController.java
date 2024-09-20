@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -129,6 +130,30 @@ public class ReservationController {
 		response.put("userId", userId);
 		response.put("reservations", reservations);
 
+        return ResponseEntity.ok(response);
+    }
+	
+    // 예약 상태 업데이트 엔드포인트
+    @PutMapping("/{reservationId}")
+    public ResponseEntity<Void> updateReservationStatus(
+            @PathVariable int reservationId, 
+            @RequestParam String status, 
+            Authentication authentication) {
+
+        String userId = authentication.getName();
+        ReservationDTO reservation = reservationService.findReservationById(reservationId);
+
+        // 예약이 존재하고 사용자가 해당 예약의 소유자인 경우에만 상태 변경 허용
+        if (reservation != null && reservation.getUserId().equals(userId)) {
+            reservation.setStatus(status); // 새로운 상태로 업데이트
+            reservationService.updateReservation(reservation); // 상태 업데이트
+            
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+    
 		return ResponseEntity.ok(response);
 	}
 

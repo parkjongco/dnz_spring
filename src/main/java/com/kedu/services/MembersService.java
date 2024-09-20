@@ -12,12 +12,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class MembersService implements UserDetailsService {
     @Autowired
     private MembersDAO membersDAO;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     @Autowired
     public MembersService(PasswordEncoder passwordEncoder, MembersDAO membersDAO) {
@@ -38,9 +41,13 @@ public class MembersService implements UserDetailsService {
         if (membersDAO.findByUserId(dto.getUserId()) != null) {
             throw new CustomException("User ID is already taken.");
         }
+        if (membersDAO.findByUserName(dto.getUserName()) != null) {
+            throw new CustomException("User name is already taken.");
+        }
 
         dto.setUserPw(passwordEncoder.encode(dto.getUserPw()));
         membersDAO.registerUser(dto);
+
     }
 
 
@@ -55,12 +62,63 @@ public class MembersService implements UserDetailsService {
         String[] tempRoles = {"ROLE_ADMIN"};
         return new User(dto.getUserId(), dto.getUserPw(), AuthorityUtils.createAuthorityList(tempRoles));
     }
-    
+
     // jik
     // selectById 메서드 추가
     public MembersDTO selectById(String userId) {
         return membersDAO.selectById(userId);
     }
+
+
+    // 회원가입
+    public MembersDTO existEmail(String existEmail) {
+        return membersDAO.existEmail(existEmail);
+    }
+
+    // 회원가입
+    public MembersDTO existId(String userId) {
+        return membersDAO.existId(userId);
+    }
+
+    // 회원가입
+    public MembersDTO existPhoneNumber(String userPhoneNumber) {
+        return membersDAO.exsitPhoneNumber(userPhoneNumber);
+    }
+
+    // 회원가입
+    public MembersDTO existName(String userName) {
+        return membersDAO.existName(userName);
+    }
+
+    public void updateUserProfile(String userId, Map<String, Object> updatedFields) {
+        MembersDTO existingUser = membersDAO.findByUserId(userId);
+
+        // updatedFields 맵에 기반하여 existingUser의 필드 업데이트
+        if (updatedFields.containsKey("userName")) {
+            existingUser.setUserName((String) updatedFields.get("userName"));
+        }
+        if (updatedFields.containsKey("userEmail")) {
+            existingUser.setUserEmail((String) updatedFields.get("userEmail"));
+        }
+        if (updatedFields.containsKey("userPhoneNumber")) {
+            existingUser.setUserPhoneNumber((String) updatedFields.get("userPhoneNumber"));
+        }
+        if (updatedFields.containsKey("userBirthDate")) {
+            existingUser.setUserBirthDate((String) updatedFields.get("userBirthDate"));
+        }
+        if (updatedFields.containsKey("userPw")) {
+            String encodedPassword = passwordEncoder.encode((String) updatedFields.get("userPw"));
+            existingUser.setUserPw(encodedPassword);
+        }
+
+        // 프로필 및 비밀번호 업데이트
+        membersDAO.updateUserProfile(existingUser);
+        if (updatedFields.containsKey("userPw")) {
+            membersDAO.updateUserPassword(userId, existingUser.getUserPw());
+        }
+    }
+
+
 
 
 }

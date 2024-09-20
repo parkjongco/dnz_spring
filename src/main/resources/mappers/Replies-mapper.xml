@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Replies">
+
+    <insert id="insertReply">
+        INSERT INTO Replies (reply_id, review_id, store_seq, user_id, reply_text, created_at)
+        VALUES (#{replyId}, #{reviewId}, #{storeSeq}, #{userId}, #{replyText}, CURRENT_TIMESTAMP)
+    </insert>
+
+   
+
+</mapper>
