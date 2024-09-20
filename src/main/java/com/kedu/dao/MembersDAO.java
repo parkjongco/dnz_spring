@@ -1,11 +1,12 @@
 package com.kedu.dao;
 
-import com.kedu.dto.MembersDTO;
+import java.util.HashMap;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
+import com.kedu.dto.MembersDTO;
 
 @Repository
 public class MembersDAO {
@@ -32,6 +33,7 @@ public class MembersDAO {
         mybatis.insert("members.registerUser", dto);
     }
 
+   
 
     public MembersDTO selectById(String user_Id) {
         System.out.println("Executing selectById with user_Id: " + user_Id);
@@ -83,7 +85,7 @@ public class MembersDAO {
     }
 
     public void updateUserProfile(MembersDTO membersDTO) {
-        mybatis.update("members.updateUserProfile", membersDTO);
+        mybatis.update("members.updateProfileImageUrl", membersDTO);
     }
 
     // 비밀번호 업데이트

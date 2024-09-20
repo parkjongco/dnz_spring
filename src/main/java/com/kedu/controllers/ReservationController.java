@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -142,8 +143,9 @@ public class ReservationController {
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+    
+	
     }
-
 
 	// 예약 가능 여부를 확인하는 API
 	@GetMapping("/checkEligibility")

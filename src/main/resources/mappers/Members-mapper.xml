@@ -74,6 +74,7 @@
         user_birth_date = #{userBirthDate},
         user_phone_number = #{userPhoneNumber},
         user_email = #{userEmail}
+        image_url = #{imageUrl}
         WHERE user_id = #{userId}
     </update>
 
@@ -83,6 +84,14 @@
         SET user_pw = #{userPw}
         WHERE user_id = #{userId}
     </update>
+
+<update id="updateProfileImageUrl">
+    UPDATE members
+    SET image_url = #{imageUrl}  <!-- image_url 필드 설정 -->
+    WHERE user_id = #{userId}
+</update>
+
+
 
 
 
