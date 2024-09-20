@@ -145,7 +145,8 @@ public class ReservationController {
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-
+    }
+    
 	// 예약 가능 여부를 확인하는 API
 	@GetMapping("/checkEligibility")
 	public ResponseEntity<Map<String, Boolean>> checkReservationEligibility(Authentication authentication) {
