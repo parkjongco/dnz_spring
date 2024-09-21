@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kedu.dto.ReservationDTO;
 import com.kedu.dto.ReviewsDTO;
+import com.kedu.services.ReservationService;
 import com.kedu.services.ReviewsService;
 
 @RestController
@@ -22,11 +24,17 @@ public class ReviewsController {
 	@Autowired
 	private ReviewsService reviewsService;
 	
+	@Autowired
+	private ReservationService reservationService;
+	
 	@PostMapping
 	public ResponseEntity<String> submitReview(@RequestBody ReviewsDTO dto, Authentication authentication ){
 		
 		String userId = authentication.getName();
 		dto.setUserId(userId);
+		
+		ReservationDTO reservation = reservationService.findReservationById(dto.getReservationId());
+		if(reservation != null && "confirmed".equals(reservation.getStatus())) {
 		
 		try {
 			System.out.println(dto.getUserId());
@@ -34,9 +42,13 @@ public class ReviewsController {
 			System.out.println(dto.getRating());
 			reviewsService.submitReview(dto);
 			return ResponseEntity.ok("리뷰 작성 성공");
+		
 		}catch(Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(500).body("리뷰 제출 실패");
+		}
+		}else {
+			return ResponseEntity.status(403).body("리뷰 작성 불가");
 		}
 	}
 	

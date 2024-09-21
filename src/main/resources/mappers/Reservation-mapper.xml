@@ -28,7 +28,7 @@
 		reservation_seq.NEXTVAL, #{userId},
 		#{storeSeq}, #{reservationDate}, #{reservationTime},
 		#{numGuests},
-		'pending', sysdate, null
+		#{status}, sysdate, null
 		)
 	</insert>
 
@@ -88,5 +88,15 @@
 		where
 		reservation_id = #{reservationId}
 	</update>
-
+	
+	<!-- 사용자이ㅡ 마지막 노쇼 시간을 가져오기 -->
+	<select id="getLastNoShowTime" resultType="java.sql.Timestamp">
+		SELECT r.updated_at AS no_show_time
+		FROM reservation r
+		WHERE r.user_id = #{userId}
+		AND r.status = 'no-show'
+		AND ROWNUM = 1
+		ORDER BY r.updated_at DESC
+		
+	</select>
 </mapper>
