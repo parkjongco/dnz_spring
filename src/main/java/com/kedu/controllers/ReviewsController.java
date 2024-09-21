@@ -1,5 +1,7 @@
 package com.kedu.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -70,6 +72,18 @@ public class ReviewsController {
             return ResponseEntity.ok("리뷰가 성공적으로 삭제");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("리뷰 삭제에 실패");
+        }
+    }
+    
+    // 가게에 대한 모든 리뷰 조회
+    @GetMapping("/store/{storeSeq}")
+    public ResponseEntity<List<ReviewsDTO>> getReviewsByStoreSeq(@PathVariable int storeSeq) {
+        try {
+            List<ReviewsDTO> reviews = reviewsService.getReviewsByStoreSeq(storeSeq);
+            return ResponseEntity.ok(reviews);
+        } catch (Exception e) {
+        	e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
         }
     }
 }
