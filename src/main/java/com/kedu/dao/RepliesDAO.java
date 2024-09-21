@@ -1,5 +1,8 @@
 package com.kedu.dao;
 
+
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,4 +26,9 @@ public class RepliesDAO {
         return mybatis.selectOne("Replies.countRepliesByReviewId", reviewId);
     }
 	
+    // storeSeq에 따른 답글 목록 조회
+    public List<RepliesDTO> selectRepliesByStoreSeq(int storeSeq) {
+        return mybatis.selectList("Replies.selectRepliesByStoreSeq", storeSeq);
+    }
+    
 }

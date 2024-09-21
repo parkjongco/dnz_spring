@@ -2,6 +2,9 @@ package com.kedu.services;
 
 import com.kedu.dao.RepliesDAO;
 import com.kedu.dto.RepliesDTO;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +28,8 @@ public class RepliesService {
         return replyDTO;
     }
 
-   
+    public List<RepliesDTO> getRepliesByStoreSeq(int storeSeq) {
+        return repliesDAO.selectRepliesByStoreSeq(storeSeq);
+    }
+    
 }

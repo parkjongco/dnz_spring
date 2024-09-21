@@ -38,4 +38,6 @@ public class ReviewsService {
     public List<ReviewsDTO> getReviewsByStoreSeq(int storeSeq) {
         return reviewsDAO.selectReviewsByStoreSeq(storeSeq);
     }
+    
+    
 }

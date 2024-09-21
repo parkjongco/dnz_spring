@@ -1,6 +1,8 @@
 package com.kedu.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kedu.dto.RepliesDTO;
 import com.kedu.dto.ReviewsDTO;
+import com.kedu.services.RepliesService;
 import com.kedu.services.ReviewsService;
 
 @RestController
@@ -23,6 +27,9 @@ public class ReviewsController {
 	
 	@Autowired
 	private ReviewsService reviewsService;
+	
+	@Autowired
+	private RepliesService repliesService;
 	
 	@PostMapping
 	public ResponseEntity<String> submitReview(@RequestBody ReviewsDTO dto, Authentication authentication ){
@@ -75,14 +82,20 @@ public class ReviewsController {
         }
     }
     
-    // 가게에 대한 모든 리뷰 조회
+ // 가게에 대한 모든 리뷰와 관련된 답글 조회
     @GetMapping("/store/{storeSeq}")
-    public ResponseEntity<List<ReviewsDTO>> getReviewsByStoreSeq(@PathVariable int storeSeq) {
+    public ResponseEntity<Map<String, Object>> getReviewsByStoreSeq(@PathVariable int storeSeq) {
         try {
             List<ReviewsDTO> reviews = reviewsService.getReviewsByStoreSeq(storeSeq);
-            return ResponseEntity.ok(reviews);
+            List<RepliesDTO> replies = repliesService.getRepliesByStoreSeq(storeSeq);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("reviews", reviews);
+            response.put("replies", replies);
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             return ResponseEntity.status(500).body(null);
         }
     }

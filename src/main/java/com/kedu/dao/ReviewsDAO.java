@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kedu.dto.RepliesDTO;
 import com.kedu.dto.ReviewsDTO;
 
 @Repository
@@ -37,4 +38,6 @@ public class ReviewsDAO {
 	public List<ReviewsDTO> selectReviewsByStoreSeq(int storeSeq) {
 		return mybatis.selectList("Reviews.selectReviewsByStoreSeq", storeSeq);
 	}
+	
+	
 }
