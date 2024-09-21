@@ -3,6 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="store">
+
+
     <!--    가게 등록-->
     <insert id="insertStore" parameterType="com.kedu.dto.StoreDTO">
         INSERT INTO store (

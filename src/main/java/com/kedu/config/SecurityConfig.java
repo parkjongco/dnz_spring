@@ -44,15 +44,18 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
 
-                        // 인증 없이 접근 가능한 경로 설정
+         		  // 인증 없이 접근 가능한 경로 설정
+
                         .requestMatchers(HttpMethod.GET, "/store/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/maps/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/photos/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/menu/**").permitAll()
                         // 나머지 모든 요청은 인증 필요
 
-                        // 나머지 모든 요청은 인증 필요
+                                                                   
 
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
