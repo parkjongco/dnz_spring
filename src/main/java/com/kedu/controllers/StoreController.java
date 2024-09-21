@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -83,5 +84,26 @@ public class StoreController {
             e.printStackTrace();
             return ResponseEntity.status(500).body("Error retrieving store name");
         }
+    }
+    
+    // 가게 설정에서 가게 기본 정보 조회
+    @GetMapping("/info")
+    public ResponseEntity<StoreDTO> getStoreInfo(Authentication authentication) {
+        String userId = authentication.getName();
+        StoreDTO storeInfo = storeService.getStoreByUserId(userId);
+        if (storeInfo != null) {
+            return ResponseEntity.ok(storeInfo);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    // 가게 정보 수정 엔드포인트
+    @PutMapping("/update")
+    public ResponseEntity<Void> updateStoreInfo(Authentication authentication, @RequestBody StoreDTO storeDTO) {
+        String userId = authentication.getName();
+        storeDTO.setMemberId(userId);
+        storeService.updateStore(storeDTO);
+        return ResponseEntity.ok().build();
     }
 }

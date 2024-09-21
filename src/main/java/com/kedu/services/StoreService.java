@@ -41,4 +41,12 @@ public class StoreService {
     public String getStoreNameBySeq(int storeSeq) {
         return storeDAO.getStoreNameBySeq(storeSeq);
     }
+    
+    public StoreDTO getStoreByUserId(String userId) {
+        return storeDAO.findStoreByUserId(userId);
+    }
+
+    public void updateStore(StoreDTO storeDTO) {
+        storeDAO.updateStore(storeDTO);
+    }
 }

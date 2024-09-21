@@ -51,4 +51,44 @@
         SELECT name FROM store WHERE store_seq = #{storeSeq}
     </select>
 
+										<!-- 가게 관리 설정 -->
+
+	<!-- 회원 ID를 통해 가게 정보 조회 -->
+    <select id="findStoreByUserId" resultType="com.kedu.dto.StoreDTO">
+        SELECT 
+            store_seq AS storeSeq, 
+            member_id AS memberId, 
+            category, 
+            name, 
+            description, 
+            seat_status AS seatStatus, 
+            created_at AS createdAt, 
+            modified_at AS modifiedAt,
+            address1, 
+            address2, 
+            postcode, 
+            seat_capacity AS seatCapacity
+        FROM 
+            store
+        WHERE 
+            member_id = #{memberId}
+    </select>
+
+    <!-- 가게 정보 수정 -->
+    <update id="updateStore">
+        UPDATE store
+        SET 
+            category = #{category},
+            name = #{name},
+            description = #{description},
+            seat_status = #{seatStatus},
+            address1 = #{address1},
+            address2 = #{address2},
+            postcode = #{postcode},
+            seat_capacity = #{seatCapacity},
+            modified_at = SYSTIMESTAMP
+        WHERE 
+            member_id = #{memberId}
+    </update>
+
 </mapper>
