@@ -1,19 +1,28 @@
 package com.kedu.dto;
 
-public class StoreOwnerDTO {
-    private int ownerId;
+public class StoreOwnerDTO  extends MembersDTO{
+    private int ownerSeq;
     private String businessNumber;
     private String representativeName;
     private String storeAddress;
     private String businessType;
     private String userId;
 
-    public int getOwnerId() {
-        return ownerId;
+    public StoreOwnerDTO(int ownerSeq, String businessNumber, String representativeName, String storeAddress, String businessType, String userId) {
+        this.ownerSeq = ownerSeq;
+        this.businessNumber = businessNumber;
+        this.representativeName = representativeName;
+        this.storeAddress = storeAddress;
+        this.businessType = businessType;
+        this.userId = userId;
     }
 
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
+    public int getOwnerSeq() {
+        return ownerSeq;
+    }
+
+    public void setOwnerSeq(int ownerSeq) {
+        this.ownerSeq = ownerSeq;
     }
 
     public String getBusinessNumber() {
@@ -53,16 +62,6 @@ public class StoreOwnerDTO {
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-
-    public StoreOwnerDTO(int ownerId, String businessNumber, String representativeName, String storeAddress, String businessType, String userId) {
-        this.ownerId = ownerId;
-        this.businessNumber = businessNumber;
-        this.representativeName = representativeName;
-        this.storeAddress = storeAddress;
-        this.businessType = businessType;
         this.userId = userId;
     }
 
