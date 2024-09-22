@@ -88,6 +88,7 @@ public class AuthController {
     // 회원가입
     @PostMapping("/registerUser")
     public ResponseEntity<String> registerUser(@RequestBody MembersDTO dto) {
+        System.out.println(dto);
         try {
             // 이메일 인증 확인
             boolean isEmailVerified = emailVerificationService.isEmailVerified(dto.getUserEmail());

@@ -14,27 +14,8 @@ public class MembersDTO {
     private Timestamp writeDate;
     private String imageUrl;  // 프로필 이미지 URL 필드 추가
     private boolean isStoreOwner;
-    private StoreOwnerDTO storeData;
+    private String userGender;
 
-    // 기본 생성자
-    public MembersDTO() {}
-
-    // 모든 필드를 포함한 생성자
-    public MembersDTO(int userSeq, String userId, String userPw, String userName, String userPhoneNumber, String userEmail, String userBirthDate, Timestamp writeDate, String imageUrl, boolean isStoreOwner, StoreOwnerDTO storeData) {
-        this.userSeq = userSeq;
-        this.userId = userId;
-        this.userPw = userPw;
-        this.userName = userName;
-        this.userPhoneNumber = userPhoneNumber;
-        this.userEmail = userEmail;
-        this.userBirthDate = userBirthDate;
-        this.writeDate = writeDate;
-        this.imageUrl = imageUrl;  // 이미지 URL 필드 설정
-        this.isStoreOwner = isStoreOwner;
-        this.storeData = storeData;
-    }
-
-    // Getter와 Setter 메서드
     public int getUserSeq() {
         return userSeq;
     }
@@ -100,11 +81,11 @@ public class MembersDTO {
     }
 
     public String getImageUrl() {
-        return imageUrl;  // 이미지 URL getter
+        return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;  // 이미지 URL setter
+        this.imageUrl = imageUrl;
     }
 
     public boolean isStoreOwner() {
@@ -115,11 +96,30 @@ public class MembersDTO {
         isStoreOwner = storeOwner;
     }
 
-    public StoreOwnerDTO getStoreData() {
-        return storeData;
+    public String getUserGender() {
+        return userGender;
     }
 
-    public void setStoreData(StoreOwnerDTO storeData) {
-        this.storeData = storeData;
+    public void setUserGender(String userGender) {
+        this.userGender = userGender;
     }
+
+    public MembersDTO(int userSeq, String userId, String userPw, String userName, String userPhoneNumber, String userEmail, String userBirthDate, Timestamp writeDate, String imageUrl, boolean isStoreOwner, String userGender) {
+        this.userSeq = userSeq;
+        this.userId = userId;
+        this.userPw = userPw;
+        this.userName = userName;
+        this.userPhoneNumber = userPhoneNumber;
+        this.userEmail = userEmail;
+        this.userBirthDate = userBirthDate;
+        this.writeDate = writeDate;
+        this.imageUrl = imageUrl;
+        this.isStoreOwner = isStoreOwner;
+        this.userGender = userGender;
+    }
+
+    // 기본 생성자
+    public MembersDTO() {}
+
+
 }
