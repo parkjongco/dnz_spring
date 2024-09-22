@@ -2,10 +2,7 @@ package com.kedu.controllers;
 
 
 import com.kedu.config.CustomException;
-import com.kedu.dto.ActivitiesDTO;
-import com.kedu.dto.EmailVerificationsDTO;
-import com.kedu.dto.MembersDTO;
-import com.kedu.dto.StoreOwnerDTO;
+import com.kedu.dto.*;
 import com.kedu.services.*;
 import com.kedu.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +26,7 @@ public class AuthController {
     private MembersService membersService;
 
     @Autowired
-    private StoreService storeService;
+    private StoreOwnerService ownerService;
     @Autowired
     private EmailVerificationService emailVerificationService;
 
@@ -91,6 +88,7 @@ public class AuthController {
     // 회원가입
     @PostMapping("/registerUser")
     public ResponseEntity<String> registerUser(@RequestBody MembersDTO dto) {
+        System.out.println(dto);
         try {
             // 이메일 인증 확인
             boolean isEmailVerified = emailVerificationService.isEmailVerified(dto.getUserEmail());
@@ -109,20 +107,22 @@ public class AuthController {
         }
     }
 
-        @PostMapping("/registerOwner")
-        public ResponseEntity<String> registerUser(@RequestBody MembersDTO MembersDTO,@RequestBody StoreOwnerDTO storeOwnerDTO) {
+    @PostMapping("/registerOwner")
+    public ResponseEntity<String> registerUser(@RequestBody StoreOwnerDTO dto) {
             try {
+
                 // 이메일 인증 확인
-                boolean isEmailVerified = emailVerificationService.isEmailVerified(MembersDTO.getUserEmail());
+                boolean isEmailVerified = emailVerificationService.isEmailVerified(dto.getUserEmail());
+                System.out.println(dto.getUserEmail());
                 if (!isEmailVerified) {
                     return ResponseEntity.badRequest().body("이메일 인증이 완료되지 않았습니다.");
                 }
                 // 회원 정보 저장
-                membersService.registerUser(MembersDTO);
+                membersService.registerUser(dto);
 
                 // 저장된 userId로 Owner 정보를 저장
-                storeOwnerDTO.setUserId(MembersDTO.getUserId()); // dto로부터 userId 설정
-//                storeService.registerStoreOwner(storeOwnerDTO);
+                dto.setUserId(dto.getUserId()); // dto로부터 userId 설정
+                ownerService.registerStoreOwner(dto);
                 // 회원가입이 완료되었다는 메시지 전송
                 return ResponseEntity.ok("회원가입이 완료되었습니다.");
             } catch (CustomException e) {
@@ -131,7 +131,7 @@ public class AuthController {
                 e.printStackTrace();
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
             }
-        }
+    }
 
 
     // 로그인
