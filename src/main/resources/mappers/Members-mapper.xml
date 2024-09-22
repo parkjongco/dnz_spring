@@ -40,9 +40,9 @@
     <!-- 사용자 등록 -->
     <insert id="registerUser" parameterType="com.kedu.dto.MembersDTO">
         INSERT INTO members (USER_SEQ, user_id, user_pw, USER_NAME, user_email, USER_PHONE_NUMBER, USER_BIRTH_DATE,
-        WRITE_DATE)
+        WRITE_DATE,USER_GENDER)
         VALUES (user_seq.NEXTVAL, #{userId}, #{userPw}, #{userName}, #{userEmail}, #{userPhoneNumber}, #{userBirthDate},
-        sysdate)
+        sysdate, #{userGender})
     </insert>
 
 
