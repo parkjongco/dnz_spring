@@ -27,7 +27,7 @@
 
    <!-- 리뷰 ID로 댓글 목록 조회 -->
     <select id="findRepliesByReviewId" resultType="com.kedu.dto.RepliesDTO">
-        SELECT reply_id, review_id, user_id, reply_text, created_at
+        SELECT reply_seq, review_id, user_id, reply_text, created_at
         FROM replies
         WHERE review_id = #{reviewId}
 
