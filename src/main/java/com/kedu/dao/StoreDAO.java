@@ -58,6 +58,11 @@ public class StoreDAO {
         mybatis.update("store.updateStore", storeDTO);
     }
     
+    // userSeq를 memberId로 조회하는 메서드 jik
+    public int getUserSeqByMemberId(String memberId) {
+        return mybatis.selectOne("store.getUserSeqByMemberId", memberId);
+    }
+    
 }
 
 

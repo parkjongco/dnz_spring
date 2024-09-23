@@ -28,4 +28,7 @@ public class NoticeService {
     }
     
     
+    public NoticeDTO getNoticeByStoreId(Long storeSeq) {
+    	return noticeDAO.findNoticeByStoreId(storeSeq);
+    }
 }

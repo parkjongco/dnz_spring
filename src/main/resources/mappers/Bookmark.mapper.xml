@@ -6,7 +6,23 @@
 
     <insert id="insertBookmark">
         INSERT INTO bookmark (bookmark_seq, user_seq, store_seq)
-        VALUES (bookmark_Seq.nextval, #{userSeq}, #{storeSeq})
+        VALUES (bookmark_seq.nextval, #{userSeq}, #{storeSeq})
     </insert>
+
+    <delete id="deleteBookmark">
+        DELETE FROM bookmark WHERE user_seq = #{userSeq} AND store_seq = #{storeSeq}
+    </delete>
+
+    <select id="isBookmarked" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM bookmark WHERE user_seq = #{userSeq} AND store_seq = #{storeSeq}
+    </select>
+
+    <!-- 특정 사용자의 북마크된 storeSeq와 storeName 목록을 가져오는 쿼리 -->
+    <select id="findBookmarkedStoresWithDetailsByUserSeq" parameterType="int" resultType="com.kedu.dto.BookmarkDTO">
+        SELECT b.store_seq, s.name AS store_name
+        FROM bookmark b
+        JOIN store s ON b.store_seq = s.store_seq
+        WHERE b.user_seq = #{userSeq}
+    </select>
 
 </mapper>
