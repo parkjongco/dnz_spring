@@ -47,6 +47,17 @@ public class StoreDAO {
     public String getStoreNameBySeq(int storeSeq) {
         return mybatis.selectOne("store.getStoreNameBySeq", storeSeq);
     }
+    
+    // 점주ID로 가게 정보 조회
+    public StoreDTO findStoreByUserId(String userId) {
+        return mybatis.selectOne("store.findStoreByUserId", userId);
+    }
+
+    // 가게 정보 수정
+    public void updateStore(StoreDTO storeDTO) {
+        mybatis.update("store.updateStore", storeDTO);
+    }
+    
 }
 
 

@@ -1,5 +1,9 @@
 package com.kedu.controllers;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -12,10 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kedu.dto.RepliesDTO;
+import com.kedu.dto.ReviewsDTO;
+import com.kedu.services.RepliesService;
+
 import com.kedu.dto.ReservationDTO;
 import com.kedu.dto.ReviewsDTO;
 import com.kedu.dto.StoreDTO;
 import com.kedu.services.ReservationService;
+
 import com.kedu.services.ReviewsService;
 import com.kedu.services.StoreService;
 
@@ -27,6 +36,9 @@ public class ReviewsController {
 	private ReviewsService reviewsService;
 	
 	@Autowired
+
+	private RepliesService repliesService;
+
 	private ReservationService reservationService;
 	
 	@Autowired
@@ -93,6 +105,24 @@ public class ReviewsController {
             return ResponseEntity.ok("리뷰가 성공적으로 삭제");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("리뷰 삭제에 실패");
+        }
+    }
+    
+ // 가게에 대한 모든 리뷰와 관련된 답글 조회
+    @GetMapping("/store/{storeSeq}")
+    public ResponseEntity<Map<String, Object>> getReviewsByStoreSeq(@PathVariable int storeSeq) {
+        try {
+            List<ReviewsDTO> reviews = reviewsService.getReviewsByStoreSeq(storeSeq);
+            List<RepliesDTO> replies = repliesService.getRepliesByStoreSeq(storeSeq);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("reviews", reviews);
+            response.put("replies", replies);
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
         }
     }
 }

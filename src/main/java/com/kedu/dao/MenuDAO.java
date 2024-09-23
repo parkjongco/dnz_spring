@@ -37,4 +37,8 @@ public class MenuDAO {
     public void deleteMenu(int menuSeq) {
         mybatis.delete("menu.deleteMenu", menuSeq);
     }
+    
+    public List<MenuDTO> findMenusByUserId(String userId) {
+        return mybatis.selectList("menu.findMenusByUserId", userId);
+    }
 }

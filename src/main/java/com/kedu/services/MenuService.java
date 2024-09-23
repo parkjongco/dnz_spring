@@ -37,4 +37,9 @@ public class MenuService {
     public void deleteMenu(int menuSeq) {
         menuDAO.deleteMenu(menuSeq);
     }
+    
+    // 유저 ID로 메뉴 조회
+    public List<MenuDTO> getMenusByUserId(String userId) {
+        return menuDAO.findMenusByUserId(userId);
+    }
 }

@@ -7,7 +7,7 @@
     <!-- 메뉴 추가 -->
     <insert id="insertMenu" parameterType="com.kedu.dto.MenuDTO">
         INSERT INTO menu (menu_seq, name, description, price, store_id, created_at, modified_at)
-        VALUES (#{menuSeq}, #{name}, #{description}, #{price}, #{storeId}, #{createdAt}, #{modifiedAt})
+        VALUES (menu_seq.NEXTVAL, #{name}, #{description}, #{price}, #{storeId}, sysdate, null)
     </insert>
 
     <!-- 가게 ID로 메뉴 조회 -->
@@ -30,7 +30,7 @@
         SET name = #{name},
             description = #{description},
             price = #{price},
-            modified_at = #{modifiedAt}
+            modified_at = CURRENT_TIMESTAMP
         WHERE menu_seq = #{menuSeq}
     </update>
 
@@ -38,4 +38,12 @@
     <delete id="deleteMenu" parameterType="int">
         DELETE FROM menu WHERE menu_seq = #{menuSeq}
     </delete>
+    
+    <!-- 회원의 유저 ID로 메뉴 조회 -->
+    <select id="findMenusByUserId" resultType="com.kedu.dto.MenuDTO">
+        SELECT m.menu_seq AS menuSeq, m.name, m.description, m.price, m.store_id AS storeId, m.created_at AS createdAt, m.modified_at AS modifiedAt
+        FROM menu m
+        JOIN store s ON m.store_id = s.store_seq
+        WHERE s.member_id = #{userId}
+    </select>
 </mapper>
