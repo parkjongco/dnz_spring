@@ -27,4 +27,13 @@
     <delete id="deleteReview">
         DELETE FROM reviews WHERE reservation_id = #{reservationId}
     </delete>
+    
+    <!-- 가게 리뷰 확인 -->
+    <select id="selectReviewsByStoreSeq" resultType="com.kedu.dto.ReviewsDTO">
+	    SELECT *
+	    FROM Reviews
+	    WHERE store_seq = #{storeSeq}
+	    ORDER BY created_at DESC
+	</select>
+    
 </mapper>
