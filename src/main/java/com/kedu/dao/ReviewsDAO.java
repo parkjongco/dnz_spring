@@ -1,9 +1,12 @@
 package com.kedu.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kedu.dto.RepliesDTO;
 import com.kedu.dto.ReviewsDTO;
 
 @Repository
@@ -30,4 +33,11 @@ public class ReviewsDAO {
 	public void deleteReview(int reservationId) {
 		mybatis.delete("Reviews.deleteReview", reservationId);
 	}
+	
+	// storeSeq에 따른 리뷰 목록 조회
+	public List<ReviewsDTO> selectReviewsByStoreSeq(int storeSeq) {
+		return mybatis.selectList("Reviews.selectReviewsByStoreSeq", storeSeq);
+	}
+	
+	
 }
