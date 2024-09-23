@@ -31,7 +31,7 @@ public class SecurityConfig {
 
 
 
-                    config.setAllowedOrigins(Arrays.asList("http://192.168.1.10:3000","http://192.168.219.182:3000", "http://localhost:3000", "http://192.168.1.36:3000", "http://192.168.1.11:3000", "http://192.168.1.19:3000" ,"http://172.30.1.29:3000"));
+                    config.setAllowedOrigins(Arrays.asList("http://192.168.1.10:3000","http://192.168.219.182:3000", "http://localhost:3000", "http://192.168.1.36:3000", "http://192.168.1.11:3000", "http://192.168.1.19:3000" ,"http://172.30.1.29:3000","http://192.168.1.172:3000"));
 
                     config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "*"));
 
