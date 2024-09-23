@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.kedu.dto.PhotosDTO;
 import com.kedu.dto.StoreDTO;
 import com.kedu.services.StoreService;
 
@@ -82,6 +84,16 @@ public class StoreController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("Error retrieving store name");
+        }
+    }
+    
+    @GetMapping("/{storeSeq}/photos")
+    public ResponseEntity<List<PhotosDTO>> getStorePhotos(@PathVariable int storeSeq) {
+        List<PhotosDTO> photos = storeService.getStorePhotos(storeSeq);
+        if (photos != null && !photos.isEmpty()) {
+            return ResponseEntity.ok(photos);
+        } else {
+            return ResponseEntity.status(404).body(null); // 사진이 없을 때
         }
     }
 }

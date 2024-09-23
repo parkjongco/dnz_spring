@@ -10,6 +10,7 @@ public class ReviewsDTO {
 	private int rating;
 	private String reviewText;
 	private Timestamp createdAt;
+	private String storeName;
 	
 	public int getReviewId() {
 		return reviewId;
@@ -54,10 +55,18 @@ public class ReviewsDTO {
 		this.createdAt = createdAt;
 	}
 	
+	public String getStoreName() {
+		return storeName;
+	}
+	
+	public void setStoreName(String storeName) {
+		this.storeName = storeName;
+	}
+	
 	public ReviewsDTO() {}
 	
 	public ReviewsDTO(int reviewId, int storeSeq, String userId, int reservationId, int rating, String reviewText,
-			Timestamp createdAt) {
+			Timestamp createdAt, String storeName) {
 		super();
 		this.reviewId = reviewId;
 		this.storeSeq = storeSeq;
@@ -66,5 +75,6 @@ public class ReviewsDTO {
 		this.rating = rating;
 		this.reviewText = reviewText;
 		this.createdAt = createdAt;
+		this.storeName = storeName;
 	}
 }
