@@ -16,6 +16,17 @@ public class NoticeController {
     @Autowired
     private NoticeService noticeService;
 
+ // 일반 회원이 특정 식당의 공지사항 조회 엔드포인트
+    @GetMapping("/store/{storeSeq}")
+    public ResponseEntity<NoticeDTO> getNoticeByStore(@PathVariable("storeSeq") Long storeSeq) {
+        NoticeDTO notice = noticeService.getNoticeByStoreId(storeSeq);
+        if (notice != null) {
+            return ResponseEntity.ok(notice);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+    
     // 가게 공지사항 조회 엔드포인트
     @GetMapping
     public ResponseEntity<NoticeDTO> getNotice(Authentication authentication) {
