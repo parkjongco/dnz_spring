@@ -2,7 +2,10 @@ package com.kedu.controllers;
 
 
 import com.kedu.config.CustomException;
-import com.kedu.dto.*;
+import com.kedu.dto.ActivitiesDTO;
+import com.kedu.dto.EmailVerificationsDTO;
+import com.kedu.dto.MembersDTO;
+import com.kedu.dto.StoreOwnerDTO;
 import com.kedu.services.*;
 import com.kedu.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +51,12 @@ public class AuthController {
         System.out.println(userEmail);
         try {
 
+            //기존 이메일 인증 코드 만료  처리.
+            boolean expireDelete = emailVerificationService.expireExistAuth(userEmail);
+            if(expireDelete) {
+                System.out.println("기존 인증 이메일 만료처리 완료.");
+            }
+
             // 이메일 인증 코드 생성
             String verificationCode = UUID.randomUUID().toString().substring(0, 8);
 
@@ -56,6 +65,7 @@ public class AuthController {
             emailVerificationDTO.setUserEmail(userEmail);
             emailVerificationDTO.setVerificationCode(verificationCode);
             emailVerificationService.saveVerification(emailVerificationDTO);
+
 
             // 이메일 전송
             emailVerificationService.sendVerificationEmail(userEmail, verificationCode);
@@ -66,6 +76,42 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
         }
     }
+
+//    @PostMapping("/requestEmailVerification/{email}")
+//    public ResponseEntity<String> requestEmailVerification(@PathVariable("email") String userEmail) {
+//        System.out.println(userEmail);
+//        try {
+//            // 기존 인증 정보 조회
+//            EmailVerificationsDTO existingVerification = emailVerificationService.getVerificationByEmail(userEmail);
+//
+//            String verificationCode;
+//
+//            // 기존 인증 정보가 있으면, 새로운 인증 코드 생성
+//            if (existingVerification != null && existingVerification.getIsVerified() == 'N') {
+//                verificationCode = UUID.randomUUID().toString().substring(0, 8);
+//                existingVerification.setVerificationCode(verificationCode);
+//                existingVerification.setCreatedAt(new Timestamp(new Date().getTime())); // 생성 시간 업데이트
+//                emailVerificationService.updateVerification(existingVerification);
+//            } else {
+//                // 이메일 인증 코드 생성
+//                verificationCode = UUID.randomUUID().toString().substring(0, 8);
+//                // 이메일 인증 정보 저장
+//                EmailVerificationsDTO emailVerificationDTO = new EmailVerificationsDTO();
+//                emailVerificationDTO.setUserEmail(userEmail);
+//                emailVerificationDTO.setVerificationCode(verificationCode);
+//                emailVerificationService.saveVerification(emailVerificationDTO);
+//            }
+//
+//            // 이메일 전송
+//            emailVerificationService.sendVerificationEmail(userEmail, verificationCode);
+//
+//            return ResponseEntity.ok("이메일 인증 코드가 전송되었습니다.");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+//        }
+//    }
+
 
     // 이메일 인증
     @PostMapping("/verifyEmail")
