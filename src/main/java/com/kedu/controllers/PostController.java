@@ -1,24 +1,5 @@
 package com.kedu.controllers;
 
-import java.util.Base64;
-import java.util.List;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
@@ -27,8 +8,18 @@ import com.google.cloud.storage.Storage;
 import com.kedu.dto.PostDTO;
 import com.kedu.services.PostService;
 import com.kedu.utils.JwtUtil;
-
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Base64;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -43,7 +34,7 @@ public class PostController {
     @Autowired
     private Storage storage; // Google Cloud Storage 객체 주입
 
-    private final String BUCKET_NAME = "cho-attachment"; // GCS 버킷 이름 설정
+    private final String BUCKET_NAME = "j-attachment"; // GCS 버킷 이름 설정
 
     // 게시물 생성 요청을 처리하는 API (파일 또는 Base64 이미지 업로드 가능)
     @PostMapping(consumes = {"multipart/form-data"})
