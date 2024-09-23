@@ -160,8 +160,8 @@ public class AuthController {
         String token = jwtUtil.createToken(mdto.getUserId(), mdto.getUserSeq());
 
         // 로그인 성공 후 실시간 알림 전송
-        String notificationMessage = "User " + mdto.getUserId() + " has logged in!";
-        notificationService.sendActivityNotification(notificationMessage);
+//        String notificationMessage = "User " + mdto.getUserId() + " has logged in!";
+//        notificationService.sendActivityNotification(notificationMessage);
 
         // 알림 카운트 가져오기
         int notificationCount = notificationService.getNotificationCount(mdto.getUserId());
@@ -170,7 +170,7 @@ public class AuthController {
         ActivitiesDTO activity = new ActivitiesDTO();
         activity.setUserSeq(mdto.getUserSeq());
         activity.setActivityType("로그인");
-        activity.setActivityDescription(mdto.getUserId() + "님이 로그인했습니다.");
+        activity.setActivityDescription(mdto.getUserId());
         activitiesService.logActivity(activity);
 
         // 토큰과 사용자 ID, 알림 카운트 반환
