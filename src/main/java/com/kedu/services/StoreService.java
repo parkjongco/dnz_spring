@@ -1,9 +1,13 @@
 package com.kedu.services;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.kedu.dao.PhotosDAO;
 import com.kedu.dao.StoreDAO;
+import com.kedu.dto.PhotosDTO;
 import com.kedu.dto.StoreDTO;
 
 @Service
@@ -11,6 +15,9 @@ public class StoreService {
 
     @Autowired
     private StoreDAO storeDAO;
+    
+    @Autowired
+    private PhotosDAO photosDAO;
 
     // 모든 가게 데이터를 가져오는 메서드
     public List<StoreDTO> getAllStores() {
@@ -37,8 +44,21 @@ public class StoreService {
         return storeDAO.getStoreById(storeId);
     }
     
- // storeSeq로 음식점 이름 조회
-    public String getStoreNameBySeq(int storeSeq) {
-        return storeDAO.getStoreNameBySeq(storeSeq);
+    // storeSeq로 음식점 이름 조회
+    public String getStoreNameBySeq(int storeId) {
+        return storeDAO.getStoreNameBySeq(storeId);
+    }
+    
+    // storeSeq로 사진 가져오기
+    public List<PhotosDTO> getStorePhotos(int storeSeq) {
+        return photosDAO.findPhotosByStoreSeq(storeSeq);
+    }
+    
+    public StoreDTO getStoreByUserId(String userId) {
+        return storeDAO.findStoreByUserId(userId);
+    }
+
+    public void updateStore(StoreDTO storeDTO) {
+        storeDAO.updateStore(storeDTO);
     }
 }

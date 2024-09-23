@@ -63,15 +63,23 @@ public class ReservationDAO {
     public void recordCancellation(CancellationRecordDTO cancellationRecordDTO) {
         mybatis.insert("Reservation.recordCancellation", cancellationRecordDTO);
     }
-	
-	// 예약 상태 업데이트
-	public void updateReservationStatus(ReservationDTO reservation) {
-		mybatis.update("Reservation.updateReservationStatus", reservation);
-	}
 
     // 사용자의 마지막 취소 시간을 가져오기
     public Timestamp getLastCancellationTime(String userId) {
         return mybatis.selectOne("Reservation.getLastCancellationTime", userId);
+    }
+    
+    // 사용자의 마지막 노쇼 시간을 가져오기
+    public Timestamp getLastNoShowTime(String userId) {
+    	return mybatis.selectOne("Reservation.getLastNoShowTime", userId);
+    }
+    
+    // 예약 상태 업데이트
+    public void updateReservationStatus(int reservationId, String status) {
+    	Map<String, Object> params = new HashMap<>();
+    	params.put("reservationId", reservationId);
+    	params.put("status", status);
+    	mybatis.update("Reservation.updateReservationStatus", params);
     }
 
 }
