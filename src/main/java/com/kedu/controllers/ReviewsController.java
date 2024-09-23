@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kedu.dto.ReservationDTO;
 import com.kedu.dto.ReviewsDTO;
+import com.kedu.dto.StoreDTO;
 import com.kedu.services.ReservationService;
 import com.kedu.services.ReviewsService;
+import com.kedu.services.StoreService;
 
 @RestController
 @RequestMapping("/reviews")
@@ -26,6 +28,9 @@ public class ReviewsController {
 	
 	@Autowired
 	private ReservationService reservationService;
+	
+	@Autowired
+	private StoreService storeService; // 가게 정보를 위해 서비스 추가함.
 	
 	@PostMapping
 	public ResponseEntity<String> submitReview(@RequestBody ReviewsDTO dto, Authentication authentication ){
@@ -53,14 +58,20 @@ public class ReviewsController {
 	}
 	
 	@GetMapping("/{reservationId}")
-	public ResponseEntity<ReviewsDTO> getReviewByReservationId(@PathVariable int reservationId){
-		ReviewsDTO dto = reviewsService.getReviewByReservationId(reservationId);
-		if(dto != null) {
-			return ResponseEntity.ok(dto);
-		}else {
-			return ResponseEntity.status(404).body(null);
-		}
-	}
+    public ResponseEntity<ReviewsDTO> getReviewByReservationId(@PathVariable int reservationId) {
+        ReviewsDTO review = reviewsService.getReviewByReservationId(reservationId);
+
+        if (review != null) {
+            // 가게 이름 가져오기
+            StoreDTO store = storeService.getStoreDetails(review.getStoreSeq());
+            if (store != null) {
+                review.setStoreName(store.getName());
+            }
+            return ResponseEntity.ok(review);
+        } else {
+            return ResponseEntity.status(404).body(null);
+        }
+    }
 	
 	 // 리뷰 수정
     @PutMapping("/{reservationId}")
