@@ -108,5 +108,13 @@
         WHERE 
             member_id = #{memberId}
     </update>
+    
+    <!-- member_id로 userSeq 조회 jik-->
+	<select id="getUserSeqByMemberId" parameterType="String" resultType="int">
+	    SELECT user_seq 
+	    FROM members 
+	    WHERE user_id = #{memberId}
+	</select>
+    
 
 </mapper>
