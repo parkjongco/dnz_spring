@@ -80,6 +80,19 @@
 		)
 		WHERE ROWNUM = 1
 	</select>
+	
+	<!-- 사용자 취소 중 가장 최근의 예약 조회 -->
+<select id="findLastCancelledReservationByUser" resultType="com.kedu.dto.ReservationDTO">
+    SELECT *
+    FROM (
+        SELECT *
+        FROM reservation
+        WHERE user_id = #{userId}
+        AND status = 'cancelled'
+        ORDER BY updated_at DESC
+    )
+    WHERE ROWNUM = 1
+</select>
 
 	<!-- 예약 상태 변경 -->
 	<update id="updateReservationStatus">
