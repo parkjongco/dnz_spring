@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.kedu.dto.PhotosDTO;
 import com.kedu.dto.StoreDTO;
 import com.kedu.services.StoreService;
 
@@ -86,6 +88,7 @@ public class StoreController {
         }
     }
     
+
     // 가게 설정에서 가게 기본 정보 조회
     @GetMapping("/info")
     public ResponseEntity<StoreDTO> getStoreInfo(Authentication authentication) {
@@ -106,4 +109,15 @@ public class StoreController {
         storeService.updateStore(storeDTO);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{storeSeq}/photos")
+    public ResponseEntity<List<PhotosDTO>> getStorePhotos(@PathVariable int storeSeq) {
+        List<PhotosDTO> photos = storeService.getStorePhotos(storeSeq);
+        if (photos != null && !photos.isEmpty()) {
+            return ResponseEntity.ok(photos);
+        } else {
+            return ResponseEntity.status(404).body(null); // 사진이 없을 때
+        }
+    }
+
 }
