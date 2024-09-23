@@ -2,7 +2,7 @@ package com.kedu.dto;
 
 public class BookmarkDTO {
     private int bookmarkSeq;
-    private String userSeq;
+    private int userSeq;
     private int storeSeq;
 
     public int getBookmarkSeq() {
@@ -13,12 +13,12 @@ public class BookmarkDTO {
         this.bookmarkSeq = bookmarkSeq;
     }
 
-    public String getUserId() {
+    public int getUserSeq() { // 수정: getter 이름 통일
         return userSeq;
     }
 
-    public void setUserId(String userId) {
-        this.userSeq = userId;
+    public void setUserSeq(int userSeq) { // 수정: setter 이름 통일
+        this.userSeq = userSeq;
     }
 
     public int getStoreSeq() {
@@ -29,13 +29,11 @@ public class BookmarkDTO {
         this.storeSeq = storeSeq;
     }
 
-    public BookmarkDTO(int bookmarkSeq, String userId, int storeSeq) {
+    public BookmarkDTO(int bookmarkSeq, int userSeq, int storeSeq) {
         this.bookmarkSeq = bookmarkSeq;
-        this.userSeq = userId;
+        this.userSeq = userSeq;
         this.storeSeq = storeSeq;
     }
 
     public BookmarkDTO() {}
-
-
 }
