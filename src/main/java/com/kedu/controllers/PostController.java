@@ -34,7 +34,11 @@ public class PostController {
     @Autowired
     private Storage storage; // Google Cloud Storage 객체 주입
 
+<<<<<<< HEAD
+    private final String BUCKET_NAME = "exam-attachment"; // GCS 버킷 이름 설정
+=======
     private final String BUCKET_NAME = "j-attachment"; // GCS 버킷 이름 설정
+>>>>>>> e8caffd6a684a85889427a9192f79867baa76658
 
     // 게시물 생성 요청을 처리하는 API (파일 또는 Base64 이미지 업로드 가능)
     @PostMapping(consumes = {"multipart/form-data"})
