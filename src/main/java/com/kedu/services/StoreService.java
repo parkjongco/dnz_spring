@@ -53,4 +53,12 @@ public class StoreService {
     public List<PhotosDTO> getStorePhotos(int storeSeq) {
         return photosDAO.findPhotosByStoreSeq(storeSeq);
     }
+    
+    public StoreDTO getStoreByUserId(String userId) {
+        return storeDAO.findStoreByUserId(userId);
+    }
+
+    public void updateStore(StoreDTO storeDTO) {
+        storeDAO.updateStore(storeDTO);
+    }
 }

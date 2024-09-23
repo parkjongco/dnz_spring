@@ -1,5 +1,7 @@
 package com.kedu.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,4 +34,10 @@ public class ReviewsService {
     public void deleteReview(int reservationId) {
         reviewsDAO.deleteReview(reservationId);
     }
+    
+    public List<ReviewsDTO> getReviewsByStoreSeq(int storeSeq) {
+        return reviewsDAO.selectReviewsByStoreSeq(storeSeq);
+    }
+    
+    
 }
