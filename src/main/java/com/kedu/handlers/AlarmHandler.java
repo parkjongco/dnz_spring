@@ -36,7 +36,7 @@ public class AlarmHandler extends TextWebSocketHandler {
 
         if (token != null && jwtUtil.isVerfied(token)) {
             String userId = jwtUtil.getSubject(token);
-            session.getAttributes().put("userId", userId);  
+            session.getAttributes().put("userId", userId);
             sessions.add(session);
             System.out.println("WebSocket 연결 성공 - 사용자 ID: " + userId);
 
@@ -64,7 +64,7 @@ public class AlarmHandler extends TextWebSocketHandler {
         int userSeq = jwtUtil.getUserSeq(session.getAttributes().get("token").toString());
         logActivity(userSeq, "메시지 수신", userId + "님이 메시지를 수신했습니다.");
 
-        // 받은 메시지에 따른 알림 전송 로직 추가
+        // (추가) 받은 메시지에 따른 알림 전송 로직 추가
         String receivedMessage = message.getPayload();
 
         if (receivedMessage.equalsIgnoreCase("예약")) {

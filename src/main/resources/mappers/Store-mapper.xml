@@ -5,52 +5,68 @@
 <mapper namespace="store">
 
 
-    <!--    가게 등록-->
-    <insert id="insertStore" parameterType="com.kedu.dto.StoreDTO">
-        INSERT INTO store (
-        store_seq, member_id, category, name, description, seat_status, created_at, address1, address2, postcode,
-        seat_capacity
-        ) VALUES (
-        store_seq.nextval, #{memberId}, #{category}, #{name}, #{description}, #{seatStatus}, CURRENT_TIMESTAMP,
-        #{address1}, #{address2}, #{postcode}, #{seatCapacity}
-        )
-    </insert>
-    <!-- 모든 가게 데이터 조회 -->
-    <select id="findAllStores" resultType="com.kedu.dto.StoreDTO">
-        SELECT store_seq AS storeSeq, member_id AS memberId, category, name, description,
-        created_at AS createdAt,
-        modified_at AS modifiedAt,
-        address1 AS address1, address2 AS address2, postcode, seat_status AS seatStatus, seat_capacity AS seatCapacity
-        FROM store
-    </select>
+	<!-- 가게 등록 -->
+	<insert id="insertStore" parameterType="com.kedu.dto.StoreDTO">
+		INSERT INTO store (
+		store_seq, member_id, category, name, description, seat_status, created_at,
+		address1, address2, postcode,
+		seat_capacity
+		) VALUES (
+		store_seq.nextval, #{memberId}, #{category}, #{name}, #{description}, #{seatStatus},
+		CURRENT_TIMESTAMP,
+		#{address1}, #{address2}, #{postcode}, #{seatCapacity}
+		)
+	</insert>
+	<!-- 모든 가게 데이터 조회 -->
+	<select id="findAllStores" resultType="com.kedu.dto.StoreDTO">
+		SELECT store_seq AS storeSeq, member_id AS memberId, category, name,
+		description,
+		created_at AS createdAt,
+		modified_at AS modifiedAt,
+		address1 AS address1, address2 AS address2, postcode, seat_status AS
+		seatStatus, seat_capacity AS seatCapacity
+		FROM store
+	</select>
 
-    <!-- 카테고리로 가게 조회 -->
-    <select id="findByCategory" parameterType="String" resultType="com.kedu.dto.StoreDTO">
-        SELECT store_seq AS storeSeq, member_id AS memberId, category, name, description,
-        created_at AS createdAt,
-        modified_at AS modifiedAt,
-        address1 AS address1, address2 AS address2, postcode, seat_status AS seatStatus, seat_capacity AS seatCapacity
-        FROM store
-        WHERE category = #{category}
-    </select>
+	<!-- 카테고리로 가게 조회 -->
+	<select id="findByCategory" parameterType="String"
+		resultType="com.kedu.dto.StoreDTO">
+		SELECT store_seq AS storeSeq, member_id AS memberId, category, name,
+		description,
+		created_at AS createdAt,
+		modified_at AS modifiedAt,
+		address1 AS address1, address2 AS address2, postcode, seat_status AS
+		seatStatus, seat_capacity AS seatCapacity
+		FROM store
+		WHERE category = #{category}
+	</select>
 
-    <!-- 특정 사용자의 가게 수 확인 -->
-    <select id="countStoresByUserId" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM store WHERE member_id = #{userId}
-    </select>
+	<!-- 특정 사용자의 가게 수 확인 -->
+	<select id="countStoresByUserId" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*) FROM store WHERE member_id = #{userId}
+	</select>
 
-    <!-- 가게 ID로 가게 정보 조회 -->
-    <select id="getStoreById" parameterType="int" resultType="com.kedu.dto.StoreDTO">
-        SELECT store_seq AS storeSeq, member_id AS memberId, category, name, description,
-        seat_status AS seatStatus, created_at AS createdAt,
-        modified_at AS modifiedAt, address1, address2, postcode, seat_capacity AS seatCapacity
-        FROM store
-        WHERE store_seq = #{storeId}
-    </select>
+	<!-- 가게 ID로 가게 정보 조회 -->
+	<select id="getStoreById" parameterType="int"
+		resultType="com.kedu.dto.StoreDTO">
+		SELECT store_seq AS storeSeq, member_id AS memberId, category, name,
+		description,
+		seat_status AS seatStatus, created_at AS createdAt,
+		modified_at AS modifiedAt, address1, address2, postcode, seat_capacity AS
+		seatCapacity
+		FROM store
+		WHERE store_seq = #{storeId}
+	</select>
 
-    <!-- storeSeq로 음식점 이름 조회 -->
-    <select id="getStoreNameBySeq" parameterType="int" resultType="String">
-        SELECT name FROM store WHERE store_seq = #{storeSeq}
-    </select>
+	<!-- storeSeq로 음식점 이름 조회 -->
+	<select id="getStoreNameBySeq" parameterType="int"
+		resultType="String">
+		SELECT name FROM store WHERE store_seq = #{storeSeq}
+	</select>
+
+	<select id="getStorePhotosByStoreSeq" parameterType="int" resultType="String">
+    SELECT image_url FROM Photos WHERE store_seq = #{storeSeq}
+</select>
 
 </mapper>

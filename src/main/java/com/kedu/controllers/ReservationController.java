@@ -61,6 +61,10 @@ public class ReservationController {
 	    // 사용자 ID 설정
 	    String userId = authentication.getName();
 	    dto.setUserId(userId);
+	    
+	    // 예약 상태 pending으로 설정
+	    dto.setStatus("pending");
+	    System.out.println("예약 등록 시 상태 : " + dto.getStatus());
 
 	    // 예약 가능 여부 확인 (3분 제한)
 	    boolean canReserve = reservationService.canMakeReservation(userId);
@@ -138,7 +142,7 @@ public class ReservationController {
 
         // 예약이 존재하고 사용자가 해당 예약의 소유자인 경우에만 상태 변경 허용
         if (reservation != null && reservation.getUserId().equals(userId)) {
-            reservation.setStatus(status); // 새로운 상태로 업데이트
+        	reservation.setStatus(status);
             reservationService.updateReservation(reservation); // 상태 업데이트
             
             return ResponseEntity.ok().build();
