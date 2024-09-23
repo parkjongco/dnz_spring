@@ -36,9 +36,9 @@ public class ReviewsController {
 	private ReviewsService reviewsService;
 	
 	@Autowired
-
 	private RepliesService repliesService;
-
+	
+	@Autowired
 	private ReservationService reservationService;
 	
 	@Autowired
