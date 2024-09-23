@@ -11,7 +11,7 @@
 	           #{userId}, #{replyText}, CURRENT_TIMESTAMP)
 	</insert>
 
-<<<<<<< HEAD
+
 	<!-- 리뷰 ID로 답글 개수 조회 쿼리 -->
     <select id="countRepliesByReviewId" resultType="int">
         SELECT COUNT(*)
@@ -23,13 +23,14 @@
         SELECT *
         FROM Replies
         WHERE store_seq = #{storeSeq}
-=======
+    </select>
+
    <!-- 리뷰 ID로 댓글 목록 조회 -->
     <select id="findRepliesByReviewId" resultType="com.kedu.dto.RepliesDTO">
         SELECT reply_id, review_id, user_id, reply_text, created_at
         FROM replies
         WHERE review_id = #{reviewId}
->>>>>>> 06f4b3e1b8633402acbec7f7c28d362f33881990
+
         ORDER BY created_at ASC
     </select>
 
