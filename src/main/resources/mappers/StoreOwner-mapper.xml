@@ -5,7 +5,7 @@
 <mapper namespace="storeOwners">
 
     <insert id="registerStoreOwner" parameterType="com.kedu.dto.StoreOwnerDTO">
-        INSERT INTO store_owners (owner_id, business_number, representative_name, store_address, business_type, user_id)
+        INSERT INTO store_owners (owners_seq, business_number, representative_name, store_address, business_type, user_id)
         VALUES (store_owners_seq.nextval, #{businessNumber}, #{representativeName}, #{storeAddress}, #{businessType}, #{userId})
     </insert>
 
