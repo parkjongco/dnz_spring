@@ -18,7 +18,7 @@
 
 
 	<!-- 음식점 예약 등록 -->
-	<insert id="insert">
+	<insert id="insertReservation">
 		insert into reservation (
 		reservation_id, user_id,
 		store_seq, reservation_date, reservation_time, num_guests,
@@ -32,12 +32,25 @@
 		)
 	</insert>
 
+	<!-- 음식점 예약 등록 시, 좌석 상태 업데이트 -->
+    <update id="updateSeatStatus">
+        UPDATE store
+        SET seat_status = seat_status + #{numGuests}
+        WHERE store_seq = #{storeSeq}
+    </update>
+
 	<!-- 본인 예약 삭제 -->
-	<delete id="deleteReservation">
-		DELETE FROM reservation
-		WHERE reservation_id =
-		#{reservationId}
-	</delete>
+    <delete id="deleteReservation">
+        DELETE FROM reservation
+        WHERE reservation_id = #{reservationId}
+    </delete>
+
+    <!-- 예약 삭제 후 좌석 상태 업데이트 -->
+    <update id="updateSeatStatusOnDelete">
+        UPDATE store
+        SET seat_status = seat_status - #{numGuests}
+        WHERE store_seq = #{storeSeq}
+    </update>
 
 	<!-- 삭제할때 예약 id 조회 -->
 	<select id="findReservationById"
@@ -94,12 +107,20 @@
     WHERE ROWNUM = 1
 </select>
 
-	<!-- 예약 상태 변경 -->
+	<!-- 예약 상태 업데이트 -->
 	<update id="updateReservationStatus">
-		update reservation
-		set status = #{status}
-		where
-		reservation_id = #{reservationId}
+	    UPDATE reservation
+	    SET status = #{status}
+	    WHERE reservation_id = #{reservationId}
+	</update>
+	
+	<!-- 좌석 상태 업데이트 -->
+	<update id="updateSeatStatusAfterReservation">
+	    UPDATE store
+	    SET seat_status = seat_status -
+	        (SELECT num_guests FROM reservation WHERE reservation_id = #{reservationId})
+	    WHERE store_seq = 
+	        (SELECT store_seq FROM reservation WHERE reservation_id = #{reservationId})
 	</update>
 	
 	<!-- 사용자이ㅡ 마지막 노쇼 시간을 가져오기 -->
