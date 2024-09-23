@@ -6,7 +6,16 @@
 
     <insert id="insertBookmark">
         INSERT INTO bookmark (bookmark_seq, user_seq, store_seq)
-        VALUES (bookmark_Seq.nextval, #{userSeq}, #{storeSeq})
+        VALUES (bookmark_seq.nextval, #{userSeq}, #{storeSeq})
     </insert>
 
+    <delete id="deleteBookmark">
+        DELETE FROM bookmark WHERE user_seq = #{userSeq} AND store_seq = #{storeSeq}
+    </delete>
+
+    <select id="isBookmarked" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM bookmark WHERE user_seq = #{userSeq} AND store_seq = #{storeSeq}
+    </select>
+
 </mapper>
+
