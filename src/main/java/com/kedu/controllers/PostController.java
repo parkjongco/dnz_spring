@@ -35,7 +35,9 @@ public class PostController {
     private Storage storage; // Google Cloud Storage 객체 주입
 
 
+
     private final String BUCKET_NAME = "exam-attachment"; // GCS 버킷 이름 설정
+
 
 
     // 게시물 생성 요청을 처리하는 API (파일 또는 Base64 이미지 업로드 가능)
