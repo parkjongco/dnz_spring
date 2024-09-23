@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Notice">
+
+    <!-- 회원 ID를 통한 공지사항 조회 -->
+    <select id="findNoticeByUserId" resultType="com.kedu.dto.NoticeDTO">
+        SELECT 
+            notice_seq AS noticeSeq, 
+            user_id AS userId, 
+            content, 
+            created_at AS createdAt, 
+            modified_at AS modifiedAt
+        FROM 
+            notice
+        WHERE 
+            user_id = #{userId}
+    </select>
+
+    <!-- 공지사항 추가 -->
+    <insert id="insertNotice">
+        INSERT INTO notice (
+            notice_seq, 
+            user_id, 
+            content, 
+            created_at
+        ) 
+        VALUES (
+            NOTICE_SEQ.NEXTVAL, 
+            #{userId}, 
+            #{content}, 
+            SYSTIMESTAMP
+        )
+    </insert>
+
+    <!-- 공지사항 수정 -->
+    <update id="updateNotice">
+        UPDATE notice
+        SET 
+            content = #{content},
+            modified_at = SYSTIMESTAMP
+        WHERE 
+            user_id = #{userId}
+    </update>
+
+</mapper>
