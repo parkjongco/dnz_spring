@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kedu.dao.ReservationDAO;
 import com.kedu.dto.CancellationRecordDTO;
@@ -23,6 +24,7 @@ public class ReservationService {
     }
 
     // 음식점 예약 등록
+    @Transactional
     public void post(ReservationDTO dto) {
         try {
             if (dto.getStatus() == null) {
@@ -36,7 +38,16 @@ public class ReservationService {
 
     // 음식점 예약 삭제
     public void deleteReservation(int reservationId) {
-        reservationDAO.deleteReservation(reservationId);
+        try {
+            ReservationDTO reservation = reservationDAO.findReservationById(reservationId);
+            if (reservation != null) {
+                reservationDAO.deleteReservation(reservationId, reservation.getStoreSeq(), reservation.getNumGuests());
+            } else {
+                throw new RuntimeException("예약이 존재하지 않습니다.");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("예약 삭제 중 문제가 발생했습니다.", e);
+        }
     }
 
     // 예약 Id로 예약 조회
@@ -51,7 +62,7 @@ public class ReservationService {
 
     // 예약 상태 업데이트
     public void updateReservation(ReservationDTO reservation) {
-        reservationDAO.updateReservationStatus(reservation.getReservationId(), reservation.getStatus());
+        reservationDAO.updateReservationStatusAndSeat(reservation.getReservationId(), reservation.getStatus());
     }
 
     // 당일 예약 취소 기록 저장
