@@ -26,5 +26,10 @@
         WHERE user_email = #{userEmail}
     </select>
 
+    <delete id="deleteByUserEmail">
+        DELETE FROM email_verifications
+        WHERE user_email = #{userEmail}
+    </delete>
+
 
 </mapper>

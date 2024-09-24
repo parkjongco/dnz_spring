@@ -34,7 +34,7 @@ public class EmailVerificationService {
     public void saveVerification(EmailVerificationsDTO emailVerificationsDTO) {
         // 현재 시간과 만료 시간을 설정
         Timestamp now = new Timestamp(new Date().getTime());
-        Timestamp expirationTime = new Timestamp(now.getTime() + (60 * 60 * 1000)); // 15분 후 만료
+        Timestamp expirationTime = new Timestamp(now.getTime() + (5 * 60 * 1000)); // 15분 후 만료
 
         emailVerificationsDTO.setCreatedAt(now);
         emailVerificationsDTO.setExpirationTime(expirationTime);
@@ -207,5 +207,24 @@ public class EmailVerificationService {
         }
     }
 
+    public boolean expireExistAuth(String userEmail) {
+        EmailVerificationsDTO dto = emailVerificationDAO.findByUserEmail(userEmail);
+        if(dto != null) {
+            boolean result = emailVerificationDAO.expireExistAuthEmail(userEmail);
+            return result;
+        }
+        return false;
 
+    }
+
+//    // 인증 정보 업데이트
+//    public void updateVerification(EmailVerificationsDTO emailVerificationsDTO) {
+//        emailVerificationDAO.update(emailVerificationsDTO);
+//    }
+//
+//
+//    // 이메일로 인증 정보 조회
+//    public EmailVerificationsDTO getVerificationByEmail(String userEmail) {
+//        return emailVerificationDAO.findByUserEmail(userEmail);
+//    }
 }

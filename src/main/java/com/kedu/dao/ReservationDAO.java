@@ -1,6 +1,5 @@
 package com.kedu.dao;
 
-
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -14,30 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kedu.dto.CancellationRecordDTO;
 import com.kedu.dto.ReservationDTO;
 
-
 @Repository
 public class ReservationDAO {
 
-	@Autowired
-	private SqlSession mybatis;
+    @Autowired
+    private SqlSession mybatis;
 
-	// 상태와 사용자 ID로 예약 목록 조회
-	public List<ReservationDTO> findByStatusAndUser(String status, String userId) {
-		// 두 개의 파라미터를 Map으로 묶어서 전달
-		Map<String, Object> params = new HashMap<>();
-		params.put("status", status);
-		params.put("userId", userId);
+    public List<ReservationDTO> findByStatusAndUser(String status, String userId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("status", status);
+        params.put("userId", userId);
 
-		return mybatis.selectList("Reservation.findByStatusAndUser", params);
-	}
-
-
-
-	//	public List<ReservationDTO> findAllReservation() {
-	//        return mybatis.selectList("Reservation.selectall");
-	//    }
-
-
+        return mybatis.selectList("Reservation.findByStatusAndUser", params);
+    }
 
 
 	// 음식점 예약 등록
@@ -83,13 +71,7 @@ public class ReservationDAO {
     public void recordCancellation(CancellationRecordDTO cancellationRecordDTO) {
         mybatis.insert("Reservation.recordCancellation", cancellationRecordDTO);
     }
-    
-    // 사용자가 마지막으로 취소한 예약을 가져오기
-    public ReservationDTO findLastCancelledReservationByUser(String userId) {
-        return mybatis.selectOne("Reservation.findLastCancelledReservationByUser", userId);
-    }
 
-    // 사용자의 마지막 취소 시간을 가져오기
     public Timestamp getLastCancellationTime(String userId) {
         return mybatis.selectOne("Reservation.getLastCancellationTime", userId);
     }
@@ -99,13 +81,13 @@ public class ReservationDAO {
     	return mybatis.selectOne("Reservation.getLastNoShowTime", userId);
     }
     
-    // 예약 상태 업데이트
-    public void updateReservationStatus(int reservationId, String status) {
-    	Map<String, Object> params = new HashMap<>();
-    	params.put("reservationId", reservationId);
-    	params.put("status", status);
-    	mybatis.update("Reservation.updateReservationStatus", params);
-    }
+//    // 예약 상태 업데이트
+//    public void updateReservationStatus(int reservationId, String status) {
+//    	Map<String, Object> params = new HashMap<>();
+//    	params.put("reservationId", reservationId);
+//    	params.put("status", status);
+//    	mybatis.update("Reservation.updateReservationStatus", params);
+//    }
     
  // 예약 상태와 좌석 상태 업데이트
     @Transactional
@@ -119,4 +101,10 @@ public class ReservationDAO {
     }
 
 
+    public void updateReservationStatus(int reservationId, String status) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("reservationId", reservationId);
+        params.put("status", status);
+        mybatis.update("Reservation.updateReservationStatus", params);
+    }
 }
