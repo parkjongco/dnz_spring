@@ -1,6 +1,8 @@
 package com.kedu.controllers;
 
+import java.util.Collections;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,6 +24,7 @@ public class StoreController {
 
     @Autowired
     private StoreService storeService;
+    
 
     // 모든 가게 데이터를 가져오는 API
     @GetMapping("/all")
@@ -110,14 +113,21 @@ public class StoreController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{storeSeq}/photos")
-    public ResponseEntity<List<PhotosDTO>> getStorePhotos(@PathVariable int storeSeq) {
-        List<PhotosDTO> photos = storeService.getStorePhotos(storeSeq);
-        if (photos != null && !photos.isEmpty()) {
-            return ResponseEntity.ok(photos);
-        } else {
-            return ResponseEntity.status(404).body(null); // 사진이 없을 때
+    @GetMapping("/{storeId}/photos")
+    public ResponseEntity<List<PhotosDTO>> getStorePhotos(@PathVariable int storeId) {
+        try {
+            List<PhotosDTO> photos = storeService.getStorePhotos(storeId);
+            if (photos != null) {
+                return ResponseEntity.ok(photos);
+            } else {
+                // 사진이 없을 경우 빈 배열 반환
+                return ResponseEntity.ok(Collections.emptyList());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
         }
     }
+
 
 }
