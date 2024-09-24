@@ -34,4 +34,15 @@ public class EmailVerificationDAO {
         return mybatis.selectOne("email.findByUserEmail", userEmail);
     }
 
+    public boolean expireExistAuthEmail(String userEmail) {
+        int result = mybatis.delete("email.deleteByUserEmail", userEmail);
+        if (result > 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+
+
 }

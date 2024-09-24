@@ -46,6 +46,7 @@ public class RepliesController {
     // 리뷰에 대한 답글 목록 가져오는 앤드포인트
     @GetMapping("/{reviewId}")
     public ResponseEntity<List<RepliesDTO>> getRepliesByReviewId(@PathVariable int reviewId) {
+    	System.out.println(reviewId);
         List<RepliesDTO> replies = repliesService.getRepliesByReviewId(reviewId);
         return ResponseEntity.ok(replies); // 데이터가 없을 경우 빈 리스트 반환
     }

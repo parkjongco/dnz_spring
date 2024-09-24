@@ -23,4 +23,8 @@ public class NoticeDAO {
     public void updateNotice(NoticeDTO noticeDTO) {
     	mybatis.update("Notice.updateNotice", noticeDTO);
     }
+    
+    public NoticeDTO findNoticeByStoreId(Long storeSeq) {
+        return mybatis.selectOne("Notice.findNoticeByStoreId", storeSeq);
+    }
 }

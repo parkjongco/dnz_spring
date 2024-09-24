@@ -1,12 +1,13 @@
 package com.kedu.services;
 
-
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kedu.dao.BookmarkDAO;
+import com.kedu.dto.BookmarkDTO;
 
 @Service
 public class BookmarkService {
@@ -27,5 +28,9 @@ public class BookmarkService {
     public boolean isBookmarked(int userSeq, int storeSeq) {
         return bookmarkDAO.isBookmarked(userSeq, storeSeq) > 0;
     }
-}
 
+    // 수정: 북마크된 storeSeq와 storeName을 가져오는 메서드
+    public List<BookmarkDTO> getBookmarkedStoresWithDetails(int userSeq) {
+        return bookmarkDAO.findBookmarkedStoresWithDetailsByUserSeq(userSeq);
+    }
+}
