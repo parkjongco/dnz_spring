@@ -5,6 +5,14 @@
 
 <mapper namespace="Notice">
 
+	<!-- 가게 ID를 통한 공지사항 조회 -->
+	<select id="findNoticeByStoreId" resultType="com.kedu.dto.NoticeDTO">
+		SELECT n.*
+		FROM notice n
+		JOIN store s ON s.member_id = n.user_id
+		WHERE s.store_seq = #{storeSeq}
+	</select>
+
     <!-- 회원 ID를 통한 공지사항 조회 -->
     <select id="findNoticeByUserId" resultType="com.kedu.dto.NoticeDTO">
         SELECT 
