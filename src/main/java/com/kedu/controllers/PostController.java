@@ -36,7 +36,7 @@ public class PostController {
 
 
 
-    private final String BUCKET_NAME = "exam-attachment"; // GCS 버킷 이름 설정
+    private final String BUCKET_NAME = "j-attachment"; // GCS 버킷 이름 설정
 
 
 
