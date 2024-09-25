@@ -1,12 +1,11 @@
 package com.kedu.dao;
 
-import java.util.HashMap;
-
+import com.kedu.dto.MembersDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kedu.dto.MembersDTO;
+import java.util.HashMap;
 
 @Repository
 public class MembersDAO {
@@ -95,6 +94,16 @@ public class MembersDAO {
         map.put("userPw", userPw);  // XML과 일치하도록 수정
         mybatis.update("members.updateUserPassword", map);
     }
+
+    public void deleteActivitiesByUserSeq(String userSeq) {
+        mybatis.delete("members.deleteActivitiesByUserSeq", userSeq);
+    }
+
+    public void deleteMemberByUserId(String userId) {
+        mybatis.delete("members.deleteMemberByUserId", userId);
+    }
+
+
 
 }
 

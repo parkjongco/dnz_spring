@@ -44,6 +44,39 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return null;
     }
 
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+//            throws ServletException, IOException {
+//
+//        // JWT 토큰 추출
+//        String token = extractToken(request);
+//
+//        if (token != null && !token.isEmpty()) {
+//            System.out.println("JWT 필터에서 추출된 토큰: " + token);
+//
+//            // 토큰이 유효한지 검증
+//            if (jwt.isVerfied(token) ) {
+//                String userId = jwt.getSubject(token);  // 토큰에서 사용자 ID 추출
+//                UserDetails userDetails = membersService.loadUserByUsername(userId);
+//
+//                // 유효한 사용자라면 SecurityContext에 설정
+//                if (userDetails != null) {
+//                    Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//                    SecurityContextHolder.getContext().setAuthentication(auth);
+//                }
+//            } else {
+//                System.out.println("토큰이 유효하지 않음.");
+//                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//                return;
+//            }
+//        } else {
+//            System.out.println("JWT 필터에서 추출된 토큰: null");
+//        }
+//
+//        // 필터 체인 계속 실행
+//        filterChain.doFilter(request, response);
+//    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -51,21 +84,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // JWT 토큰 추출
         String token = extractToken(request);
 
-        if (token != null) {
+        if (token != null && !token.isEmpty()) {
             System.out.println("JWT 필터에서 추출된 토큰: " + token);
 
-            // 토큰이 유효한지 검증
-            if (jwt.isVerfied(token)) {
-                String userId = jwt.getSubject(token);  // 토큰에서 사용자 ID 추출
-                UserDetails userDetails = membersService.loadUserByUsername(userId);
+            try {
+                // 토큰이 유효한지 검증
+                if (jwt.isVerfied(token)) {
+                    String userId = jwt.getSubject(token);  // 토큰에서 사용자 ID 추출
+                    UserDetails userDetails = membersService.loadUserByUsername(userId);
 
-                // 유효한 사용자라면 SecurityContext에 설정
-                if (userDetails != null) {
-                    Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(auth);
+                    // 유효한 사용자라면 SecurityContext에 설정
+                    if (userDetails != null) {
+                        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        SecurityContextHolder.getContext().setAuthentication(auth);
+                    } else {
+                        System.out.println("유효한 사용자 정보를 찾을 수 없음.");
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        return;
+                    }
+                } else {
+                    System.out.println("토큰이 유효하지 않음.");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    return;
                 }
-            } else {
-                System.out.println("토큰이 유효하지 않음.");
+            } catch (Exception e) {
+                System.out.println("JWT 검증 중 오류 발생: " + e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
@@ -76,5 +119,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 필터 체인 계속 실행
         filterChain.doFilter(request, response);
     }
+
 
 }

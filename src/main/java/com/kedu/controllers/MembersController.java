@@ -1,24 +1,16 @@
 package com.kedu.controllers;
 
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.kedu.dto.MembersDTO;
 import com.kedu.services.MembersService;
 import com.kedu.utils.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 
 @RestController
@@ -55,7 +47,6 @@ public class MembersController {
 
     @GetMapping("/userProfile/{userId}")
     public ResponseEntity<MembersDTO> getUserProfile(@PathVariable String userId) {
-        System.out.println("여기뭐오긴하냐 씨발");
         try {
             // 사용자 ID를 기반으로 사용자 정보 가져오기
             MembersDTO userProfile = membersService.selectById(userId);
@@ -91,12 +82,7 @@ public class MembersController {
         }
     }
 
-    
-    
-    
-    
-    
-    
+
     @PutMapping("/update")
     public ResponseEntity<String> updateUserProfile(
             @RequestBody Map<String, Object> updatedFields,
@@ -110,9 +96,37 @@ public class MembersController {
 
             return ResponseEntity.ok("Profile updated successfully");
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating profile");
         }
     }
+
+
+    @DeleteMapping("/delete/{userId}/{userSeq}")
+
+    public ResponseEntity<String> deleteAccount(@PathVariable String userId, @PathVariable String userSeq) {
+        // 회원 존재 여부 확인
+        MembersDTO id = membersService.selectById(userId);
+        if (id == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자가 존재하지 않습니다.");
+        }
+
+        try {
+            // 회원 탈퇴 로직
+            membersService.deleteAccount(userId, userSeq);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("데이터베이스 오류가 발생했습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("알 수 없는 오류가 발생했습니다.");
+        }
+
+        return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
+    }
+
+
+
 
 
 }

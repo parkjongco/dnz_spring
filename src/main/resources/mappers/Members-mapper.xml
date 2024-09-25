@@ -40,9 +40,9 @@
     <!-- 사용자 등록 -->
     <insert id="registerUser" parameterType="com.kedu.dto.MembersDTO">
         INSERT INTO members (USER_SEQ, user_id, user_pw, USER_NAME, user_email, USER_PHONE_NUMBER, USER_BIRTH_DATE,
-        WRITE_DATE,USER_GENDER)
+        WRITE_DATE,USER_GENDER,ROLE_CODE)
         VALUES (user_seq.NEXTVAL, #{userId}, #{userPw}, #{userName}, #{userEmail}, #{userPhoneNumber}, #{userBirthDate},
-        sysdate, #{userGender})
+        sysdate, #{userGender},#{roleCode})
     </insert>
 
 
@@ -91,6 +91,14 @@
     WHERE user_id = #{userId}
 </update>
 
+
+    <delete id="deleteActivitiesByUserSeq" parameterType="String">
+        DELETE FROM activities WHERE user_seq = #{userSeq}
+    </delete>
+
+    <delete id="deleteMemberByUserId" parameterType="String">
+        DELETE FROM members WHERE user_id = #{userId}
+    </delete>
 
 
 

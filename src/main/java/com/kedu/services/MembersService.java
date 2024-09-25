@@ -1,12 +1,10 @@
 package com.kedu.services;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Map;
-import java.util.UUID;
-
+import com.kedu.config.CustomException;
+import com.kedu.dao.MembersDAO;
+import com.kedu.dao.StoreOwnerDAO;
+import com.kedu.dto.MembersDTO;
+import com.kedu.dto.StoreOwnerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -15,11 +13,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kedu.config.CustomException;
-import com.kedu.dao.MembersDAO;
-import com.kedu.dto.MembersDTO;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class MembersService implements UserDetailsService {
@@ -28,6 +30,11 @@ public class MembersService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+//    @Autowired
+//    private StoreOwnerService storeOwnerService;
+
+    @Autowired
+    private StoreOwnerDAO storeOwnerDAO;
 
     @Autowired
     public MembersService(PasswordEncoder passwordEncoder, MembersDAO membersDAO) {
@@ -59,10 +66,6 @@ public class MembersService implements UserDetailsService {
     }
 
 
- 
-    
-    
-    
     
     public void registerUser(MembersDTO dto) {
         if (membersDAO.findByEmail(dto.getUserEmail()) != null) {
@@ -81,10 +84,31 @@ public class MembersService implements UserDetailsService {
         }
 
         dto.setUserPw(passwordEncoder.encode(dto.getUserPw()));
-        membersDAO.registerUser(dto);
 
+        if (dto.getRoleCode() == null || dto.getRoleCode().isEmpty()) {
+            dto.setRoleCode("ROLE_USER");
+        }
+
+        membersDAO.registerUser(dto);
     }
 
+
+
+    public void registerStoreOwner(StoreOwnerDTO storeOwnerDTO) {
+
+        storeOwnerDTO.setRoleCode("ROLE_OWNER");
+        System.out.println("Role code before DAO call: " + storeOwnerDTO.getRoleCode()); // 여기에 출력문 추가
+        // 점주 정보 저장 로직
+        storeOwnerDAO.registerStoreOwner(storeOwnerDTO);
+    }
+
+//    public void registerOwner(StoreOwnerDTO dto) {
+//        // 기본 사용자 등록
+//        registerUser(dto); // 일반 사용자 등록 로직 호출
+//
+//        // 점주 정보 저장
+//        storeOwnerService.registerStoreOwner(dto); // StoreOwnerService를 통해 점주 정보 저장
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String user_Id) throws UsernameNotFoundException {
@@ -94,8 +118,7 @@ public class MembersService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
         System.out.println("User found: " + dto.getUserId());
-        String[] tempRoles = {"ROLE_ADMIN"};
-        return new User(dto.getUserId(), dto.getUserPw(), AuthorityUtils.createAuthorityList(tempRoles));
+        return new User(dto.getUserId(), dto.getUserPw(), AuthorityUtils.createAuthorityList(dto.getRoleCode()));
     }
 
     // jik
@@ -152,8 +175,15 @@ public class MembersService implements UserDetailsService {
             membersDAO.updateUserPassword(userId, existingUser.getUserPw());
         }
     }
+//    탈퇴
 
-
+    @Transactional
+    public void deleteAccount(String userId, String userSeq) {
+        // 활동 테이블에서 사용자 시퀀스 삭제
+        membersDAO.deleteActivitiesByUserSeq(userSeq);
+        // 회원 테이블에서 사용자 삭제
+        membersDAO.deleteMemberByUserId(userId);
+    }
 
 
 }

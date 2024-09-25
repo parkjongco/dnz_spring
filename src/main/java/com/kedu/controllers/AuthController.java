@@ -28,8 +28,7 @@ public class AuthController {
     @Autowired
     private MembersService membersService;
 
-    @Autowired
-    private StoreOwnerService ownerService;
+
     @Autowired
     private EmailVerificationService emailVerificationService;
 
@@ -42,8 +41,8 @@ public class AuthController {
     @Autowired
     private ActivitiesService activitiesService;  // 활동 서비스 주입
 
-    @Autowired
-    private StoreOwnerService storeOwnerService;
+//    @Autowired
+//    private StoreOwnerService storeOwnerService;
 
     // 이메일 인증 요청
     @PostMapping("/requestEmailVerification/{email}")
@@ -141,6 +140,8 @@ public class AuthController {
             if (!isEmailVerified) {
                 return ResponseEntity.badRequest().body("이메일 인증이 완료되지 않았습니다.");
             }
+
+            dto.setRoleCode("ROLE_USER");
             // 회원 정보 저장
             membersService.registerUser(dto);
             // 회원가입이 완료되었다는 메시지 전송
@@ -153,8 +154,9 @@ public class AuthController {
         }
     }
 
+    //점주회원가입
     @PostMapping("/registerOwner")
-    public ResponseEntity<String> registerUser(@RequestBody StoreOwnerDTO dto) {
+    public ResponseEntity<String> registerOwner(@RequestBody StoreOwnerDTO dto) {
             try {
 
                 // 이메일 인증 확인
@@ -163,12 +165,15 @@ public class AuthController {
                 if (!isEmailVerified) {
                     return ResponseEntity.badRequest().body("이메일 인증이 완료되지 않았습니다.");
                 }
+
+                // 점주로서 역할 코드 설정
+                dto.setRoleCode("ROLE_OWNER");
                 // 회원 정보 저장
                 membersService.registerUser(dto);
 
                 // 저장된 userId로 Owner 정보를 저장
                 dto.setUserId(dto.getUserId()); // dto로부터 userId 설정
-                ownerService.registerStoreOwner(dto);
+                membersService.registerStoreOwner(dto);
                 // 회원가입이 완료되었다는 메시지 전송
                 return ResponseEntity.ok("회원가입이 완료되었습니다.");
             } catch (CustomException e) {

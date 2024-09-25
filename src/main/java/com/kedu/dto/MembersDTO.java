@@ -15,6 +15,22 @@ public class MembersDTO {
     private String imageUrl;  // 프로필 이미지 URL 필드 추가
     private boolean isStoreOwner;
     private String userGender;
+    private String roleCode;
+
+    public MembersDTO(int userSeq, String userId, String userPw, String userName, String userPhoneNumber, String userEmail, String userBirthDate, Timestamp writeDate, String imageUrl, boolean isStoreOwner, String userGender, String roleCode) {
+        this.userSeq = userSeq;
+        this.userId = userId;
+        this.userPw = userPw;
+        this.userName = userName;
+        this.userPhoneNumber = userPhoneNumber;
+        this.userEmail = userEmail;
+        this.userBirthDate = userBirthDate;
+        this.writeDate = writeDate;
+        this.imageUrl = imageUrl;
+        this.isStoreOwner = isStoreOwner;
+        this.userGender = userGender;
+        this.roleCode = roleCode;
+    }
 
     public int getUserSeq() {
         return userSeq;
@@ -104,18 +120,12 @@ public class MembersDTO {
         this.userGender = userGender;
     }
 
-    public MembersDTO(int userSeq, String userId, String userPw, String userName, String userPhoneNumber, String userEmail, String userBirthDate, Timestamp writeDate, String imageUrl, boolean isStoreOwner, String userGender) {
-        this.userSeq = userSeq;
-        this.userId = userId;
-        this.userPw = userPw;
-        this.userName = userName;
-        this.userPhoneNumber = userPhoneNumber;
-        this.userEmail = userEmail;
-        this.userBirthDate = userBirthDate;
-        this.writeDate = writeDate;
-        this.imageUrl = imageUrl;
-        this.isStoreOwner = isStoreOwner;
-        this.userGender = userGender;
+    public String getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
     }
 
     // 기본 생성자
