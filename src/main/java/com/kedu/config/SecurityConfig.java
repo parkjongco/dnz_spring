@@ -51,17 +51,43 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/store/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/maps/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/photos/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/photos/store/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/menu/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/menu/store/**").permitAll() // 가게 ID로 메뉴 조회 허용
+                        .requestMatchers(HttpMethod.GET, "/menu/**").permitAll() // 메뉴 ID로 메뉴 조회 허용
+                        .requestMatchers(HttpMethod.POST, "/menu/**").hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers(HttpMethod.PUT, "/menu/**").hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers(HttpMethod.DELETE, "/menu/**").hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers(HttpMethod.POST, "/replies/**").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/replies/**").permitAll()
 
-                        // 역할에 따른 접근 제어
+                        .requestMatchers(HttpMethod.POST, "/reviews/**").permitAll() // 리뷰 작성 허용
+                        .requestMatchers(HttpMethod.GET, "/reviews/**").permitAll() // 리뷰 조회 허용
+                        .requestMatchers(HttpMethod.PUT, "/reviews/**").permitAll() // 리뷰 수정 허용
+                        .requestMatchers(HttpMethod.DELETE, "/reviews/**").permitAll() // 리뷰 삭제 허용
+
+
+                        .requestMatchers("/reservation/**").permitAll() // 모든 사용자 접근 허용
+
+                        .requestMatchers("/api/activities/**").permitAll()
+                        .requestMatchers("/members/**").permitAll() // 모든 사용자에게 접근 허용
+                        .requestMatchers("/bookmark/**").hasAnyRole("ADMIN", "OWNER", "USER")
+
+                        .requestMatchers(HttpMethod.POST, "/api/posts/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/posts/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/posts/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/registerOwner").hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers(HttpMethod.POST, "/registerUser").permitAll()  // 모든 사용자에게 접근 허용
+
+                        // 역할에 따른 접근 제어 추가
                         .requestMatchers("/admin/**").hasRole("ADMIN")   // 관리자만 접근 가능
-                        .requestMatchers("/owner/**").hasRole("OWNER")   // 점주만 접근 가능
-                        .requestMatchers("/user/**").hasRole("USER")     // 일반 사용자만 접근 가능
+                        .requestMatchers("/owner/**").hasAnyRole("ADMIN", "OWNER")   // 관리자 또는 점주 접근 가능
+                        .requestMatchers("/user/**").hasAnyRole("ADMIN", "OWNER", "USER")     // 관리자, 점주, 일반 사용자 접근 가능
 
-                        // 나머지 모든 요청은 인증 필요
+
                         .anyRequest().authenticated()
                 )
                 // JWT 필터 추가

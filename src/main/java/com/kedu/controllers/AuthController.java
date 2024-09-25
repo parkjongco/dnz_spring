@@ -41,9 +41,9 @@ public class AuthController {
     @Autowired
     private ActivitiesService activitiesService;  // 활동 서비스 주입
 
-//    @Autowired
-//    private StoreOwnerService storeOwnerService;
 
+
+//   모든사용자
     // 이메일 인증 요청
     @PostMapping("/requestEmailVerification/{email}")
     public ResponseEntity<String> requestEmailVerification(@PathVariable("email") String userEmail) {
@@ -111,7 +111,7 @@ public class AuthController {
 //        }
 //    }
 
-
+//모든사용자
     // 이메일 인증
     @PostMapping("/verifyEmail")
     public ResponseEntity<String> verifyEmail(@RequestBody EmailVerificationsDTO verificationDTO) {
@@ -130,6 +130,7 @@ public class AuthController {
         }
     }
 
+//    유저
     // 회원가입
     @PostMapping("/registerUser")
     public ResponseEntity<String> registerUser(@RequestBody MembersDTO dto) {
@@ -154,6 +155,7 @@ public class AuthController {
         }
     }
 
+//점주
     //점주회원가입
     @PostMapping("/registerOwner")
     public ResponseEntity<String> registerOwner(@RequestBody StoreOwnerDTO dto) {
@@ -185,6 +187,7 @@ public class AuthController {
     }
 
 
+//    회원가입이 인증된 모든 사용자
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody MembersDTO dto) {
@@ -228,6 +231,7 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("token", token, "userId", mdto.getUserId(), "notificationCount", notificationCount));
     }
 
+    //모든사용자
     //    비밀번호 재설정
     @PostMapping("/findPassword")
     public ResponseEntity<String> resetPassword(@RequestBody MembersDTO dto) {
@@ -253,6 +257,7 @@ public class AuthController {
         }
     }
 
+    //모든사용자
     //    아이디찾기
     @PostMapping("/findId")
     public ResponseEntity<String> findId(@RequestBody MembersDTO dto) {
@@ -273,6 +278,7 @@ public class AuthController {
         }
     }
 
+    //모든사용자
     //아이디 중복체크
     @PostMapping("/existId")
     public ResponseEntity<String> existId(@RequestBody MembersDTO dto) {
@@ -285,6 +291,7 @@ public class AuthController {
         }
     }
 
+    //모든사용자
 //    닉네임 중복 검사
     @PostMapping("/existName")
     public ResponseEntity<String> existName(@RequestBody MembersDTO dto) {
@@ -298,6 +305,7 @@ public class AuthController {
         }
     }
 
+    //모든사용자
 //    핸드포번호 중복 검사
     @PostMapping("/existPhoneNumber")
     public ResponseEntity<String> existphoneNumber(@RequestBody MembersDTO dto) {
@@ -311,6 +319,7 @@ public class AuthController {
         }
     }
 
+    //모든사용자
 //    이메일 중복 검사
     @PostMapping("/existEmail")
     public ResponseEntity<String> existEmail(@RequestBody MembersDTO dto) {

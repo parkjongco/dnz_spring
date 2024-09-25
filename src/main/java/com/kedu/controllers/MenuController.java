@@ -21,7 +21,7 @@ public class MenuController {
 
     @Autowired
     private StoreService storeService;
-    
+
  // 메뉴 추가
     @PostMapping
     public ResponseEntity<String> addMenu(Authentication authentication, @RequestBody MenuDTO menu) {
@@ -30,11 +30,11 @@ public class MenuController {
             String userId = authentication.getName();
 
             // userId를 통해 storeId를 조회
-            
+
             StoreDTO storeDTO = storeService.getStoreByUserId(userId);
-            
+
             Integer storeId = storeDTO.getStoreSeq();
-            
+
             System.out.println(storeId);
             // 메뉴 DTO에 storeId 설정
             menu.setStoreId(storeId);
@@ -45,28 +45,6 @@ public class MenuController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("Error adding menu");
-        }
-    }
-
-    // 가게 ID로 메뉴 조회
-    @GetMapping("/store/{storeId}")
-    public ResponseEntity<List<MenuDTO>> getMenusByStoreId(@PathVariable int storeId) {
-        try {
-            List<MenuDTO> menus = menuService.getMenusByStoreId(storeId);
-            return ResponseEntity.ok(menus);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
-        }
-    }
-
-    // 메뉴 ID로 메뉴 조회
-    @GetMapping("/{menuSeq}")
-    public ResponseEntity<MenuDTO> getMenuById(@PathVariable int menuSeq) {
-        try {
-            MenuDTO menu = menuService.getMenuById(menuSeq);
-            return ResponseEntity.ok(menu);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
         }
     }
 
@@ -94,7 +72,7 @@ public class MenuController {
             return ResponseEntity.status(500).body("Error deleting menu");
         }
     }
-    
+
  // 회원의 유저 ID로 메뉴 조회
     @GetMapping
     public ResponseEntity<List<MenuDTO>> getMenusByUserId(Authentication authentication) {
@@ -104,6 +82,29 @@ public class MenuController {
             return ResponseEntity.ok(menus);
         } catch (Exception e) {
         	e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+//----------------------------
+
+    // 가게 ID로 메뉴 조회
+    @GetMapping("/store/{storeId}")
+    public ResponseEntity<List<MenuDTO>> getMenusByStoreId(@PathVariable int storeId) {
+        try {
+            List<MenuDTO> menus = menuService.getMenusByStoreId(storeId);
+            return ResponseEntity.ok(menus);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    // 메뉴 ID로 메뉴 조회
+    @GetMapping("/{menuSeq}")
+    public ResponseEntity<MenuDTO> getMenuById(@PathVariable int menuSeq) {
+        try {
+            MenuDTO menu = menuService.getMenuById(menuSeq);
+            return ResponseEntity.ok(menu);
+        } catch (Exception e) {
             return ResponseEntity.status(500).body(null);
         }
     }
